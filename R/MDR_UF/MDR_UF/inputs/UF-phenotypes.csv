@@ -1,0 +1,88 @@
+No,Isolate_ID,Project,Microbe_group,Taxa_identifier,Project_sample_ID,Isolation_date,Isolation_farm,Isolation_source,Isolation_source_specific,Isolation_farm_irrigation,Isolation_media_original,Isolate_morph_size,Isolate_morph_color,Isolate_morph_other,Total_resistance_X.7,Total_tolerant_X.7,Multidrug_Resistant,Multidrug_tolerant,Amp_TR,Azith_TR,Cip_TR,Chlor_TR,Cef_TR,Gen_TR,Tet_TR,DNA_extraxtion_date,Qubit_DNA_conc,Library.Prep.Date,Primer.Plate,Well,Primer.Set
+1,UF-6,Urban Farm,Bacteria,Unknown,RZ-12,6/16/2023,Eco-City Bladensburg,Amended soil,Plot-Lettuce (Muir),city,TSA+Amp,S,Y,"Circ, Raised",1,4,no,yes,1,1,1,1,0,0,0,5/15/2024,42.4,6/25/2024,A,A01,A-A01
+2,UF-15,Urban Farm,Bacteria,Unknown,RZ-12,6/16/2023,Eco-City Bladensburg,Amended soil,Plot-Lettuce (Muir),city,TSA+Amp,S,Y,"Circ, Raised",3,5,yes,yes,1,1,1,1,0,0,1,5/15/2024,45.3,6/25/2024,A,B01,A-B01
+5,UF-74,Urban Farm,Bacteria,Unknown,RZ-18,6/26/2023,Urban Farm Incubator,Amended soil,Plot-Kale (Starbor),well,TSA+Amp,M,OW,"Circ, Convex",2,4,no,yes,1,1,0,1,1,0,0,5/15/2024,13,6/25/2024,A,D01,A-D01
+7,UF-76,Urban Farm,Bacteria,Unknown,RZ-23,6/26/2023,Urban Farm Incubator,Amended soil,Plot-Kale (Lacinato),well,TSA+Amp,PP,OW,"Circ, Convex",2,3,no,yes,1,0,1,0,1,0,0,5/15/2024,7.61,6/26/2024,B,A01,B-A01
+8,UF-77,Urban Farm,Bacteria,Unknown,RZ-21,6/26/2023,Urban Farm Incubator,Amended soil,Plot-Kale (Lacinato),well,TSA+Amp,T,P,"Circ, Flat",2,4,no,yes,1,1,0,1,1,0,0,5/15/2024,43.1,6/25/2024,A,F01,A-F01
+9,UF-78,Urban Farm,Bacteria,Unknown,RZ-29,6/26/2023,Urban Farm Incubator,Amended soil,Plot-Kale (Siberian),well,TSA+Amp,T,LP,"Circ, Flat",4,4,yes,yes,1,1,0,1,1,0,0,5/15/2024,59,6/26/2024,B,B02,B-B02
+10,UF-81,Urban Farm,Bacteria,Unknown,BS-13,6/26/2023,Terp Farm,Bulk_soil,Bulk_soil,pond,TSA+Amp,S,Y,"Circ, Convex",2,3,no,yes,1,0,1,0,1,0,0,5/15/2024,31,6/25/2024,A,G01,A-G01
+11,UF-84,Urban Farm,Bacteria,Unknown,P-16,6/26/2023,Urban Farm Incubator,Leafy green,Kale (Starbor),well,TSA+Amp,PP,P,Circ,3,3,yes,yes,1,1,0,0,1,0,0,5/15/2024,22.7,6/25/2024,A,H01,A-H01
+12,UF-86,Urban Farm,Bacteria,Unknown,P-24,6/26/2023,Urban Farm Incubator,Leafy green,Kale (Lacinato),well,TSA+Amp,S,OW,"Circ, Flat",3,4,yes,yes,1,1,0,1,1,0,0,5/15/2024,17.6,6/25/2024,A,A02,A-A02
+13,UF-89,Urban Farm,Bacteria,Unknown,P-34,6/26/2023,Terp Farm,Leafy green,Cabbage (Napa),pond,TSA+Amp,S,W,"Circ, Convex",3,4,yes,yes,1,1,0,1,1,0,0,5/15/2024,12.2,6/25/2024,A,B02,A-B02
+14,UF-94,Urban Farm,Bacteria,Unknown,RZ-30,6/26/2023,Urban Farm Incubator,Amended soil,Plot-Kale (Siberian),well,TSA+Tet,M,W,"Circ, Flat",3,3,yes,yes,1,0,0,0,1,0,1,4/24/2024,46.4,6/25/2024,A,C02,A-C02
+15,UF-95,Urban Farm,Bacteria,Unknown,RZ-28,6/26/2023,Urban Farm Incubator,Amended soil,Plot-Kale (Siberian),well,TSA+Tet,PP,OW,"Circ, Convex",1,5,no,yes,1,0,1,0,1,1,1,4/24/2024,61.7,6/26/2024,B,C02,B-C02
+16,UF-97,Urban Farm,Bacteria,Unknown,RZ-31,6/26/2023,Terp Farm,Amended soil,Plot-Cabbage (Napa),pond,TSA+Tet,S,W,"Circ, Convex",0,5,no,yes,1,1,0,1,1,0,1,4/26/2024,118,6/26/2024,B,A06,B-A06
+18,UF-100,Urban Farm,Bacteria,Unknown,BS-6,6/26/2023,Urban Farm Incubator,Bulk_soil,Bulk_soil,well,TSA+Tet,S,W,"Circ, Flat",3,4,yes,yes,1,0,1,0,1,0,1,4/26/2024,29,6/25/2024,A,E02,A-E02
+19,UF-101,Urban Farm,Bacteria,Unknown,BS-12,6/26/2023,Terp Farm,Bulk_soil,Bulk_soil,pond,TSA+Tet,PP,W,Circ,2,7,no,yes,1,1,1,1,1,1,1,4/26/2024,78.1,6/26/2024,B,D02,B-D02
+20,UF-125,Urban Farm,Bacteria,Unknown,P-38,7/6/2023,Common Root Farm,Leafy green,Kale,well,TSA+Amp,M,OW,Circ. Convex,3,4,yes,yes,1,1,0,1,1,0,0,5/15/2024,10.3,6/25/2024,A,F02,A-F02
+32,UF-148,Urban Farm,Bacteria,Unknown,P-47,7/6/2023,Common Root Farm,Leafy green,Lettuce,well,TSA+Amp,S,W,Circ. Convex,1,3,no,yes,1,1,0,0,1,0,0,5/16/2024,45.3,6/25/2024,A,C03,A-C03
+39,UF-166,Urban Farm,Bacteria,Unknown,RZ-38,7/6/2023,Common Root Farm,Amended soil,Plot-Kale,well,TSA+Tet,S,W,Circ. Convex,3,5,yes,yes,1,1,0,1,1,0,1,4/26/2024,46.1,6/25/2024,A,G03,A-G03
+40,UF-167,Urban Farm,Bacteria,Unknown,RZ-43,7/6/2023,Common Root Farm,Amended soil,Plot-Chard (Bright Lights),well,TSA+Tet,M,Y,Circ. Convex,2,4,no,yes,1,1,0,0,1,0,1,4/26/2024,17.2,6/25/2024,A,H03,A-H03
+41,UF-170,Urban Farm,Bacteria,Unknown,RZ-42,7/6/2023,Common Root Farm,Amended soil,Plot-Chard (Bright Lights),well,TSA+Tet,L,OW,Irreg. Transluscent,3,5,yes,yes,1,1,0,1,1,0,1,4/29/2024,19.4,6/25/2024,A,A04,A-A04
+42,UF-173,Urban Farm,Bacteria,Unknown,P-47,7/6/2023,Common Root Farm,Leafy green,Lettuce,well,TSA+Tet,S,W,Circ. Convex,1,3,no,yes,1,1,0,0,0,0,1,4/29/2024,53.4,6/26/2024,B,E03,B-E03
+43,UF-174,Urban Farm,Bacteria,Unknown,P-43,7/6/2023,Common Root Farm,Leafy green,Chard (Bright Lights),well,TSA+Tet,M,OW,Circ. Convex,3,5,yes,yes,1,1,1,1,0,0,1,4/29/2024,24,6/25/2024,A,B04,A-B04
+44,UF-175,Urban Farm,Bacteria,Unknown,P-46,7/6/2023,Common Root Farm,Leafy green,Lettuce,well,TSA+Tet,S,OW,Ovular,1,5,no,yes,1,1,1,1,0,0,1,4/29/2024,106,6/26/2024,B,C06,B-C06
+45,UF-176,Urban Farm,Bacteria,Unknown,RZ-40,7/6/2023,Common Root Farm,Amended soil,Plot-Kale,well,TSA+Tet,S,Y,Circ. Transluscent,0,6,no,yes,1,1,1,1,1,0,1,4/29/2024,9.77,6/26/2024,B,C01,B-C01
+46,UF-177,Urban Farm,Bacteria,Unknown,RZ-47,7/6/2023,Common Root Farm,Amended soil,Plot-Lettuce,well,TSA+Tet,PP,OW,Circ.,0,3,no,yes,1,1,0,0,0,0,1,4/29/2024,90.7,6/26/2024,B,F03,B-F03
+47,UF-178,Urban Farm,Bacteria,Unknown,P-38,7/6/2023,Common Root Farm,Leafy green,Kale,well,TSA+Tet,M,OW,Circ. Convex,3,5,yes,yes,1,1,1,1,0,0,1,4/29/2024,17.4,6/25/2024,A,C04,A-C04
+48,UF-180,Urban Farm,Bacteria,Unknown,P-48,7/6/2023,Common Root Farm,Leafy green,Lettuce,well,TSA+Tet,M,OW,Irreg.,2,7,no,yes,1,1,1,1,1,1,1,4/29/2024,46.4,6/25/2024,A,D04,A-D04
+49,UF-181,Urban Farm,Bacteria,Unknown,P-37,7/6/2023,Common Root Farm,Leafy green,Kale,well,TSA+Tet,M,OW,Circ. Convex,2,7,no,yes,1,1,1,1,1,1,1,4/29/2024,23.6,6/25/2024,A,E04,A-E04
+50,UF-183,Urban Farm,Bacteria,Unknown,P-41,7/6/2023,Common Root Farm,Leafy green,Chard (Bright Lights),well,TSA+Tet,S,Y,Circ. Convex,2,7,no,yes,1,1,1,1,1,1,1,5/1/2024,31.5,6/25/2024,A,F04,A-F04
+51,UF-184,Urban Farm,Bacteria,Unknown,P-41,7/6/2023,Common Root Farm,Leafy green,Chard (Bright Lights),well,TSA+Tet,S,Y,Circ. Convex,3,6,yes,yes,1,1,1,1,1,0,1,5/1/2024,47.8,6/25/2024,A,G04,A-G04
+52,UF-185,Urban Farm,Bacteria,Unknown,P-36,7/6/2023,Common Root Farm,Leafy green,Kale,well,TSA+Tet,PP,OW,Circ.,2,5,no,yes,1,1,1,0,1,0,1,5/1/2024,89.3,6/26/2024,B,G03,B-G03
+53,UF-186,Urban Farm,Bacteria,Unknown,P-42,7/6/2023,Common Root Farm,Leafy green,Chard (Bright Lights),well,TSA+Tet,M,Y,Circ. Convex,2,5,no,yes,1,1,1,1,0,0,1,5/3/2024,19.1,6/25/2024,A,H04,A-H04
+54,UF-187,Urban Farm,Bacteria,Unknown,P-42,7/6/2023,Common Root Farm,Leafy green,Chard (Bright Lights),well,TSA+Tet,M,Y,Circ. Convex,4,6,yes,yes,1,1,1,1,1,0,1,5/1/2024,134,6/26/2024,B,G06,B-G06
+57,UF-209,Urban Farm,Bacteria,Unknown,RZ-47,7/6/2023,Common Root Farm,Amended soil,Plot-Lettuce,well,TSA+Amp,PP,OW,Circ.,1,4,no,yes,1,1,0,1,1,0,0,4/26/2024,10.4,6/25/2024,A,B05,A-B05
+58,UF-212,Urban Farm,Bacteria,Unknown,BS-15,7/6/2023,Common Root Farm,Bulk_soil,Bulk_soil,well,TSA+Amp,L,OW,"Cir,c Convex",2,4,no,yes,1,1,0,1,1,0,0,4/26/2024,52.1,6/26/2024,B,A04,B-A04
+59,UF-216,Urban Farm,Bacteria,Unknown,P-48,7/6/2023,Common Root Farm,Leafy green,Lettuce,well,TSA+Amp,M,OW,Irreg.,1,4,no,yes,1,1,0,1,1,0,0,4/26/2024,56.3,6/26/2024,B,B04,B-B04
+60,UF-219,Urban Farm,Bacteria,Unknown,P-47,7/6/2023,Common Root Farm,Leafy green,Lettuce,well,TSA+Tet,S,W,Circ. Convex,2,5,no,yes,1,1,1,0,1,0,1,5/1/2024,58.9,6/26/2024,B,C04,B-C04
+61,UF-221,Urban Farm,Bacteria,Unknown,P-46,7/6/2023,Common Root Farm,Leafy green,Lettuce,well,TSA+Tet,S,OW,Ovular,3,5,yes,yes,1,1,1,1,0,0,1,5/1/2024,58.5,6/26/2024,B,D04,B-D04
+62,UF-222,Urban Farm,Bacteria,Unknown,RZ-43,7/6/2023,Common Root Farm,Amended soil,Plot-Chard (Bright Lights),well,TSA+Tet,M,Y,Circ. Convex,4,5,yes,yes,1,1,1,1,0,0,1,5/1/2024,27,6/25/2024,A,C05,A-C05
+63,UF-224,Urban Farm,Bacteria,Unknown,RZ-42,7/6/2023,Common Root Farm,Amended soil,Plot-Chard (Bright Lights),well,TSA+Tet,L,OW,Irreg. Transluscent,1,4,no,yes,1,1,1,0,0,0,1,5/1/2024,21.7,6/25/2024,A,D05,A-D05
+64,UF-227,Urban Farm,Bacteria,Unknown,P-37,7/6/2023,Common Root Farm,Leafy green,Kale,well,TSA+Tet,M,OW,Circ. Convex,4,5,yes,yes,1,1,1,1,0,0,1,5/1/2024,51.9,6/26/2024,B,E04,B-E04
+65,UF-243,Urban Farm,Bacteria,Unknown,P-57,7/12/2023,Sandy Spring Gardens,Leafy green,Chard (Bright Lights),city,TSA+Amp,M,P,Circ. Flat,2,4,no,yes,1,1,0,1,1,0,0,5/16/2024,7.67,6/26/2024,B,D01,B-D01
+66,UF-244,Urban Farm,Bacteria,Unknown,RZ-57,7/12/2023,Sandy Spring Gardens,Amended soil,Plot-Chard (Bright Lights),city,TSA+Amp,L,OW,Circ. Flat Divot,3,3,yes,yes,1,0,0,1,1,0,0,4/26/2024,102,6/26/2024,B,D06,B-D06
+67,UF-248,Urban Farm,Bacteria,Unknown,P-50,7/12/2023,Sandy Spring Gardens,Leafy green,Kale (Redbor),city,TSA+Amp,S,OW,Circ. Flat,2,3,no,yes,1,1,0,0,1,0,0,4/26/2024,78,6/26/2024,B,F04,B-F04
+68,UF-249,Urban Farm,Bacteria,Unknown,P-56,7/12/2023,Sandy Spring Gardens,Leafy green,Kale (Darkibor),city,TSA+Amp,L,OW,Circ. Irreg. Flat,2,4,no,yes,1,1,0,1,1,0,0,4/24/2024,16.2,6/25/2024,A,E05,A-E05
+69,UF-250,Urban Farm,Bacteria,Unknown,P-59,7/12/2023,Sandy Spring Gardens,Leafy green,Chard (Bright Lights),city,TSA+Amp,S,W,Irregular,3,4,yes,yes,1,1,0,1,1,0,0,4/19/2024,16,6/25/2024,A,F05,A-F05
+70,UF-251,Urban Farm,Bacteria,Unknown,P-52,7/12/2023,Sandy Spring Gardens,Leafy green,Kale (Redbor),city,TSA+Amp,T,P,Circ. Flat Halo,2,3,no,yes,1,0,0,1,1,0,0,4/19/2024,7.85,6/25/2024,A,G05,A-G05
+71,UF-254,Urban Farm,Bacteria,Unknown,RZ-58,7/12/2023,Sandy Spring Gardens,Amended soil,Plot-Chard (Bright Lights),city,TSA+Amp,L,OW,Circ. Flat,1,4,no,yes,1,1,0,1,1,0,0,4/19/2024,55.6,6/26/2024,B,G04,B-G04
+72,UF-255,Urban Farm,Bacteria,Unknown,RZ-54,7/12/2023,Sandy Spring Gardens,Amended soil,Plot-Kale (Darkibor),city,TSA+Amp,M,W,Circ. Raised,1,4,no,yes,1,1,0,1,1,0,0,4/19/2024,8.4,6/25/2024,A,H05,A-H05
+73,UF-256,Urban Farm,Bacteria,Unknown,RZ-51,7/12/2023,Sandy Spring Gardens,Amended soil,Plot-Kale (Redbor),city,TSA+Amp,S,W,Circ. Convex,2,4,no,yes,1,1,0,1,1,0,0,4/19/2024,4.27,6/25/2024,A,A06,A-A06
+74,UF-257,Urban Farm,Bacteria,Unknown,BS-22,7/26/2023,Sandy Spring Gardens,Bulk_soil,Bulk_soil,city,TSA+Amp,S,OW,"Circ/Irreg. Convex, Transluscent",2,4,no,yes,1,1,0,0,1,0,1,4/19/2024,8.96,6/25/2024,A,B06,A-B06
+76,UF-260,Urban Farm,Bacteria,Unknown,RZ-56,7/12/2023,Sandy Spring Gardens,Amended soil,Plot-Kale (Darkibor),city,TSA+Tet,L,OW,Circ. Convex,3,6,yes,yes,1,1,1,1,1,0,1,5/3/2024,37.9,6/25/2024,A,D06,A-D06
+77,UF-263,Urban Farm,Bacteria,Unknown,BS-24,7/26/2023,Sandy Spring Gardens,Bulk_soil,Bulk_soil,city,TSA+Tet,M,R,Circ. Halo. Convex,3,4,yes,yes,1,1,1,0,0,0,1,5/3/2024,58.9,6/26/2024,B,H04,B-H04
+78,UF-268,Urban Farm,Bacteria,Unknown,RZ-54,7/12/2023,Sandy Spring Gardens,Amended soil,Plot-Kale (Darkibor),city,TSA+Tet,M,W,Circ. Raised,4,4,yes,yes,1,1,1,0,0,0,1,5/3/2024,54.1,6/26/2024,B,A05,B-A05
+79,UF-269,Urban Farm,Bacteria,Unknown,RZ-55,7/12/2023,Sandy Spring Gardens,Amended soil,Plot-Kale (Darkibor),city,TSA+Tet,M,R,Circ. Convex,2,4,no,yes,1,1,1,0,0,0,1,5/3/2024,89,6/25/2024,A,D07,A-D07
+80,UF-269b,Urban Farm,Bacteria,Unknown,RZ-55,7/12/2023,Sandy Spring Gardens,Amended soil,Plot-Kale (Darkibor),city,TSA+Tet,M,R,Circ. Convex,2,4,no,yes,1,1,1,0,0,0,1,5/3/2024,89,6/26/2024,B,B05,B-B05
+81,UF-274,Urban Farm,Bacteria,Unknown,RZ-50,7/12/2023,Sandy Spring Gardens,Amended soil,Plot-Kale (Redbor),city,TSA+Tet,M,W,Circ. Convex,3,5,yes,yes,1,1,1,1,0,0,1,5/3/2024,41.4,6/25/2024,A,E06,A-E06
+82,UF-275,Urban Farm,Bacteria,Unknown,RZ-50,7/12/2023,Sandy Spring Gardens,Amended soil,Plot-Kale (Redbor),city,TSA+Tet,M,W,Circ. Convex,5,5,yes,yes,1,0,1,0,1,1,1,5/3/2024,97.6,6/26/2024,B,C05,B-C05
+84,UF-287,Urban Farm,Bacteria,Unknown,P-64,7/22/2023,Temperance Community Garden,Leafy green,Kale (Westlander),city,TSA+Amp,M,OW,Circ/Irreg. Flat,1,3,no,yes,1,0,0,1,1,0,0,4/19/2024,8.67,6/26/2024,B,E01,B-E01
+85,UF-289,Urban Farm,Bacteria,Unknown,P-67,7/22/2023,Temperance Community Garden,Leafy green,Kale (Westlander),city,TSA+Amp,M,OW,Circ. Raised,1,4,no,yes,1,1,0,1,1,0,0,4/19/2024,20.8,6/25/2024,A,G06,A-G06
+86,UF-290,Urban Farm,Bacteria,Unknown,RZ-60,7/22/2023,Temperance Community Garden,Amended soil,Plot-Kale (Lacinato),city,TSA+Amp,L,B,Circ. Flat,1,4,no,yes,1,0,0,1,1,0,1,4/19/2024,18.5,6/25/2024,A,H06,A-H06
+87,UF-293,Urban Farm,Bacteria,Unknown,BS-26,7/22/2023,Temperance Community Garden,Bulk_soil,Bulk_soil,city,TSA+Amp,L,OW,Circ. Irreg,2,4,no,yes,1,1,0,1,1,0,0,4/17/2024,29.6,6/25/2024,A,A07,A-A07
+88,UF-297,Urban Farm,Bacteria,Unknown,RZ-68,7/22/2023,Temperance Community Garden,Amended soil,Plot-Kale (Westlander),city,TSA+Amp,S,W,Irregular,1,3,no,yes,1,0,0,1,1,0,0,4/17/2024,29.1,6/25/2024,A,B07,A-B07
+89,UF-298,Urban Farm,Bacteria,Unknown,RZ-68,7/22/2023,Temperance Community Garden,Amended soil,Plot-Kale (Westlander),city,TSA+Amp,S,W,Irregular,2,3,no,yes,1,0,0,1,1,0,0,4/17/2024,16.2,6/25/2024,A,C07,A-C07
+90,UF-299,Urban Farm,Bacteria,Unknown,RZ-67,7/22/2023,Temperance Community Garden,Amended soil,Plot-Kale (Westlander),city,TSA+Amp,L,OW,Irregular,2,5,no,yes,1,1,0,1,1,0,1,4/17/2024,29.4,6/26/2024,B,H06,B-H06
+95,UF-316,Urban Farm,Bacteria,Unknown,BS-26,7/22/2023,Temperance Community Garden,Bulk_soil,Bulk_soil,city,TSA+Tet,L,OW,Circ. Irreg,4,6,yes,yes,1,1,1,0,1,1,1,5/10/2024,11.3,6/25/2024,A,A08,A-A08
+96,UF-340,Urban Farm,Bacteria,Unknown,P-76,7/25/2023,Columbia Heights Green,Leafy green,Kale (Westlander),city & harvested rain,TSA+Tet,M,OW,Circ. Irreg,2,3,no,yes,1,1,0,0,0,0,1,5/10/2024,36.9,6/25/2024,A,B08,A-B08
+97,UF-342,Urban Farm,Bacteria,Unknown,BS-33,7/25/2023,Columbia Heights Green,Bulk_soil,Bulk_soil,city & harvested rain,TSA+Tet,M,OW,Circ. Irreg,2,4,no,yes,1,0,0,0,1,1,1,5/10/2024,15,6/25/2024,A,C08,A-C08
+98,UF-343,Urban Farm,Bacteria,Unknown,RZ-73,7/25/2023,Columbia Heights Green,Amended soil,Plot-Kale (Lacinato),city & harvested rain,TSA+Tet,S,OW,Circ. Convex,2,4,no,yes,1,1,0,0,1,0,1,5/10/2024,37.1,6/25/2024,A,D08,A-D08
+99,UF-346,Urban Farm,Bacteria,Unknown,RZ-71,7/25/2023,Columbia Heights Green,Amended soil,Plot-Kale (Lacinato),city & harvested rain,TSA+Tet,S,OW,Circ. Convex,3,3,yes,yes,1,0,0,0,1,0,1,5/14/2024,27.2,6/25/2024,A,E08,A-E08
+100,UF-347,Urban Farm,Bacteria,Unknown,RZ-74,7/25/2023,Columbia Heights Green,Amended soil,Plot-Kale (Westlander),city & harvested rain,TSA+Tet,S,OW,Circ. Convex,2,3,no,yes,1,1,0,0,0,0,1,5/14/2024,28.8,6/25/2024,A,F08,A-F08
+101,UF-350,Urban Farm,Bacteria,Unknown,BS-30,7/25/2023,Columbia Heights Green,Bulk_soil,Bulk_soil,city & harvested rain,TSA+Tet,S,OW,Circ. Convex,2,4,no,yes,1,1,0,0,1,0,1,5/14/2024,25.5,6/25/2024,A,G08,A-G08
+102,UF-357,Urban Farm,Bacteria,Unknown,RZ-80,7/25/2023,Columbia Heights Green,Amended soil,Plot-Kale (Red Russian),city & harvested rain,TSA+Amp,S,OW,Circ. Fuzzy,2,4,no,yes,1,1,0,1,1,0,0,4/12/2024,12,6/25/2024,A,H08,A-H08
+103,UF-358,Urban Farm,Bacteria,Unknown,RZ-79,7/25/2023,Columbia Heights Green,Amended soil,Plot-Kale (Red Russian),city & harvested rain,TSA+Amp,L,OW,Irregular,2,4,no,yes,1,1,0,1,1,0,0,4/12/2024,14.5,6/25/2024,A,A09,A-A09
+107,UF-369,Urban Farm,Bacteria,Unknown,BS-33,7/25/2023,Columbia Heights Green,Bulk_soil,Bulk_soil,city & harvested rain,TSA+Amp,M,OW,Circ. Irreg,3,4,yes,yes,1,1,0,1,1,0,0,4/12/2024,54.2,6/26/2024,B,D05,B-D05
+108,UF-370,Urban Farm,Bacteria,Unknown,RZ-70,7/25/2023,Columbia Heights Green,Amended soil,Plot-Kale (Lacinato),city & harvested rain,TSA+Amp,S,OW,Circ. Flat,2,4,no,yes,1,1,0,1,1,0,0,4/12/2024,68.2,6/26/2024,B,E05,B-E05
+109,UF-371,Urban Farm,Bacteria,Unknown,P-76,7/25/2023,Columbia Heights Green,Leafy green,Kale (Westlander),city & harvested rain,TSA+Amp,M,OW,Circ. Irreg,1,4,no,yes,1,1,0,1,1,0,0,4/12/2024,32.9,6/25/2024,A,D09,A-D09
+113,UF-407,Urban Farm,Bacteria,Unknown,RZ-81,9/1/2023,Eco-City Bladensburg,Amended soil,Plot-Kale (Red Russian),city,TSA+Amp,L,OW,Circ.,3,5,yes,yes,1,1,0,1,1,0,1,4/12/2024,108,6/26/2024,B,E06,B-E06
+118,UF-412,Urban Farm,Bacteria,Unknown,BS-35,9/1/2023,Eco-City Bladensburg,Bulk_soil,Bulk_soil,city,TSA+Amp,L,W,Circ Divot,2,3,no,yes,1,0,0,1,1,0,0,4/12/2024,6.49,6/26/2024,B,G01,B-G01
+119,UF-413,Urban Farm,Bacteria,Unknown,BS-37,9/1/2023,Eco-City Bladensburg,Bulk_soil,Bulk_soil,city,TSA+Amp,S,R,Circ. Convex hite halo,1,3,no,yes,1,1,0,0,0,0,1,4/10/2024,110,6/26/2024,B,F06,B-F06
+121,UF-445,Urban Farm,Bacteria,Unknown,BS-36,9/1/2023,Eco-City Bladensburg,Bulk_soil,Bulk_soil,city,TSA+Tet,L,OW,Circ.Convex,3,5,yes,yes,1,1,0,0,1,1,1,5/14/2024,30.5,6/25/2024,A,E10,A-E10
+122,UF-447,Urban Farm,Bacteria,Unknown,BS-39,9/1/2023,Eco-City Bladensburg,Bulk_soil,Bulk_soil,city,TSA+Tet,M,W,Circ. Flat,3,5,yes,yes,1,0,1,0,1,1,1,5/14/2024,11.1,6/25/2024,A,F10,A-F10
+123,UF-449,Urban Farm,Bacteria,Unknown,RZ-86,9/1/2023,Eco-City Bladensburg,Amended soil,Plot-Chard (Bright Lights),city,TSA+Tet,L,OW,Circ. Raised ,3,3,yes,yes,1,0,0,0,1,0,1,5/14/2024,22.4,6/25/2024,A,G10,A-G10
+124,UF-450,Urban Farm,Bacteria,Unknown,RZ-81,9/1/2023,Eco-City Bladensburg,Amended soil,Plot-Kale (Red Russian),city,TSA+Tet,L,OW,Circ.,3,4,yes,yes,1,0,0,0,1,1,1,5/14/2024,10.9,6/25/2024,A,H10,A-H10
+125,UF-452,Urban Farm,Bacteria,Unknown,RZ-83,9/1/2023,Eco-City Bladensburg,Amended soil,Plot-Kale (Red Russian),city,TSA+Tet,M,OW,Circ. Irreg,4,5,yes,yes,1,0,1,0,1,1,1,5/14/2024,6.32,6/26/2024,B,H01,B-H01
+126,UF-453,Urban Farm,Bacteria,Unknown,RZ-85,9/1/2023,Eco-City Bladensburg,Amended soil,Plot-Chard (Bright Lights),city,TSA+Tet,Smear,OW,SMR,3,4,yes,yes,1,0,1,0,1,0,1,5/14/2024,11,6/25/2024,A,A11,A-A11
+127,UF-458,Urban Farm,Bacteria,Unknown,BS-36,9/1/2023,Eco-City Bladensburg,Bulk_soil,Bulk_soil,city,TSA+Tet,L,OW,Circ.Convex,4,5,yes,yes,1,1,0,0,1,1,1,5/14/2024,51.2,6/26/2024,B,F05,B-F05

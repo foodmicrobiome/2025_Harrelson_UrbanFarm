@@ -1,0 +1,4 @@
+"0","#add new_naming"
+"0","AMRfinder_datanew <- merge(AMRfinder_data, new_naming, by = ""Isolate_ID"")"
+"2","Error: object 'AMRfinder_data' not found
+"

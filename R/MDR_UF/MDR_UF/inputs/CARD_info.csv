@@ -1,0 +1,159 @@
+﻿CARD best Aro Hit,AMRFINDER FORMATTEDClass,BASED ON,CARD Short
+ vanW gene in vanI cluster,GLYCOPEPTIDE,DRUG CLASS,vanW_in_vanI_cl
+ vanY gene in vanA cluster,GLYCOPEPTIDE,DRUG CLASS,vanY_in_vanA_cl
+AAC(6)-Ic\t91.78\t3002549\tprotein homolog model\tn/a\tn/a\taminoglycoside antibiotic\tantibiotic inactivation\tAAC(6),AMINOGLYCOSIDE,DRUG CLASS,AAC(6')-Ic
+AAC(6)-Ic\t93.15\t3002549\tprotein homolog model\tn/a\tn/a\taminoglycoside antibiotic\tantibiotic inactivation\tAAC(6),AMINOGLYCOSIDE,DRUG CLASS,AAC(6')-Ic
+AAC(6)-Ic\t93.84\t3002549\tprotein homolog model\tn/a\tn/a\taminoglycoside antibiotic\tantibiotic inactivation\tAAC(6),,,
+AAC(6)-Ic\t94.52\t3002549\tprotein homolog model\tn/a\tn/a\taminoglycoside antibiotic\tantibiotic inactivation\tAAC(6) ,,,
+AAC(6)-Ic\t95.21\t3002549\tprotein homolog model\tn/a\tn/a\taminoglycoside antibiotic\tantibiotic inactivation\tAAC(6) ,,,
+AAC(6)-Ic\t97.26\t3002549\tprotein homolog model\tn/a\tn/a\taminoglycoside antibiotic\tantibiotic inactivation\tAAC(6),,,
+AAC(6)-Ic\t97.95\t3002549\tprotein homolog model\tn/a\tn/a\taminoglycoside antibiotic\tantibiotic inactivation\tAAC(6),,,
+AAC(6)-Ih\t95.89\t3002555\tprotein homolog model\tn/a\tn/a\taminoglycoside antibiotic\tantibiotic inactivation\tAAC(6) ,,,
+Acinetobacter baumannii AbaQ,EFFLUX,MECHANISM,Abau_AbaQ
+acrB,EFFLUX,MECHANISM,acrB 
+acrD,EFFLUX,MECHANISM,acrD 
+adeF,EFFLUX,MECHANISM,adeF 
+amrA,EFFLUX,MECHANISM,amrA 
+amrB,EFFLUX ,MECHANISM,amrB 
+APH(3)-IIb\t98.13\t3002645\tprotein homolog model\tn/a\tn/a\taminoglycoside antibiotic\tantibiotic inactivation\tAPH(3),,,
+APH(3)-IIb\t98.51\t3002645\tprotein homolog model\tn/a\tn/a\taminoglycoside antibiotic\tantibiotic inactivation\tAPH(3),,,
+APH(9)-Ic,AMINOGLYCOSIDE,DRUG CLASS,APH(9)-Ic  
+ArmR,EFFLUX,MECHANISM,ArmR
+arnA,,,
+ArnT,PEPTIDE,DRUG CLASS,ArnT 
+baeR,EFFLUX,MECHANISM,baeR 
+basS,,,
+BcI,BETA-LACTAM,GENE FAMILY,BcI  
+BcII ,,,
+BcIII,BETA-LACTAM,GENE FAMILY,BcIII
+bcr-1,,,
+catII from Escherichia coli K-12,,,
+ceoB,EFFLUX,MECHANISM,ceoB 
+cprR,,,
+cprS,,,
+cpxA,EFFLUX,MECHANISM,cpxA 
+CRP,EFFLUX,MECHANISM,CRP  
+DHA-4,,,
+emrB,EFFLUX,MECHANISM,emrB
+emrR,EFFLUX,MECHANISM,emrR 
+eptB,PEPTIDE,DRUG CLASS,eptB 
+Escherichia coli AcrAB-TolC with MarR mutations conferring resistance to ciprofloxacin and tetracycline,EFFLUX,MECHANISM,Ecol_MarR_MULT
+Escherichia coli mdfA,EFFLUX,MECHANISM,Ecol_mdfA
+FosA,,,
+fosA5,FOSFOMYCIN,GENE FAMILY,fosA5
+FosA8,FOSFOMYCIN,GENE FAMILY,FosA8
+FosB,FOSFOMYCIN,GENE FAMILY,FosB 
+FosB2,,,
+FosBx1,FOSFOMYCIN,GENE FAMILY,FosBx1  
+HelR,RIFAMYCIN,DRUG CLASS,HelR
+IND-4 ,,,
+IND-7,BETA-LACTAM,GENE FAMILY,IND-7
+Klebsiella pneumoniae KpnE,EFFLUX,MECHANISM,Kpne_KpnE
+Klebsiella pneumoniae KpnF,EFFLUX,MECHANISM,Kpne_KpnF
+Klebsiella pneumoniae KpnG,EFFLUX,MECHANISM,Kpne_KpnG
+Klebsiella pneumoniae KpnH,EFFLUX,MECHANISM,Kpne_KpnH
+leuO,EFFLUX,MECHANISM,leuO 
+LptD,EFFLUX,MECHANISM,LptD 
+marA,EFFLUX,MECHANISM,marA
+mdtB,EFFLUX,MECHANISM,mdtB 
+mdtC,EFFLUX,MECHANISM,mdtC 
+MexA,,,
+MexB,,,
+MexC,,,
+MexD,,,
+MexE,,,
+MexF,,,
+MexG,,,
+MexH,EFFLUX,MECHANISM,MexH
+MexI,EFFLUX,MECHANISM,MexI
+MexJ ,,,
+MexK ,,,
+MexL ,,,
+mexM,EFFLUX,MECHANISM,mexM
+mexN,EFFLUX,MECHANISM,mexN
+mexP,,,
+mexQ,,,
+MexR ,,,
+MexS ,,,
+MexT ,,,
+MexV ,,,
+MexW ,,,
+mexY ,,,
+MexZ ,,,
+mphL ,,,
+msbA,EFFLUX,MECHANISM,msbA 
+msr(G),STREPTOTHRICIN,DRUG CLASS,msr(G)
+MuxA,,,
+MuxB,,,
+MuxC,,,
+nalC ,,,
+nalD ,,,
+OCH-8,BETA-LACTAM,DRUG CLASS,OCH-8
+OmpA,PEPTIDE,DRUG CLASS,OmpA
+OpmB,,,
+OpmD,EFFLUX,MECHANISM,OpmD
+opmE,,,
+OpmH,EFFLUX,MECHANISM,OpmH
+OprJ,,,
+OprM,,,
+OprN,,,
+oqxB,EFFLUX,MECHANISM,oqxB
+OXA-1029,BETA-LACTAM,GENE FAMILY,OXA-1029
+OXA-486 ,,,
+OXA-671 ,,,
+ParR,EFFLUX,MECHANISM,ParR
+ParS,EFFLUX,MECHANISM,ParS
+PDC-224,,,
+PDC-5,,,
+PLA-2a,BETA-LACTAM,GENE FAMILY,PLA-2a  
+PmpM,,,
+PmrF,PEPTIDE,DRUG CLASS,PmrF 
+Pseudomonas aeruginosa catB7 ,,,
+Pseudomonas aeruginosa CpxR,EFFLUX,MECHANISM,Paer_CpxR
+Pseudomonas aeruginosa emrE,EFFLUX,MECHANISM,Paer_emrE
+Pseudomonas aeruginosa soxR,EFFLUX,MECHANISM,Paer_soxR
+qacG,EFFLUX,MECHANISM,qacG 
+qacJ,EFFLUX,MECHANISM,qacJ
+rsmA,EFFLUX,MECHANISM, rsmA 
+Shigella flexneri acrA,EFFLUX,MECHANISM,Sfle_acrA
+smeA,EFFLUX,MECHANISM,smeA
+smeB ,,,
+smeC ,,,
+smeD,EFFLUX,MECHANISM,smeD
+smeE,EFFLUX,MECHANISM,smeE
+smeF ,,,
+smeR,EFFLUX,MECHANISM,smeR
+smeS ,,,
+SRT-2,,,
+SRT-3,BETA-LACTAM,GENE FAMILY,SRT-3
+SRT-4,BETA-LACTAM,GENE FAMILY,SRT-4
+SST-1,BETA-LACTAM,GENE FAMILY,SST-1
+Streptomyces lividans otr(A),TETRACYCLINE,DRUG CLASS,otr(A)S.liv
+Streptomyces rimosus otr(A),TETRACYCLINE,DRUG CLASS,otr(A)S.rim
+Streptomyces venezuelae rox,RIFAMYCIN,DRUG CLASS,Sven_rox
+tet(41),TETRACYCLINE,DRUG CLASS,tet(41) 
+tet(45),TETRACYCLINE,DRUG CLASS,tet(45) 
+tet(59),TETRACYCLINE,DRUG CLASS,tet(59) 
+tet(B),TETRACYCLINE,DRUG CLASS,tet(B)
+tet(D)  ,,,
+tetB(P),TETRACYCLINE,DRUG CLASS,tetB(P) 
+tetR,TETRACYCLINE,DRUG CLASS,tetR
+TriA,,,
+TriB,,,
+TriC,,,
+Type B NfxB,,,
+vanG,GLYCOPEPTIDE,DRUG CLASS,vanG 
+vanH gene in vanA cluster ,,,
+vanH gene in vanB cluster,GLYCOPEPTIDE,DRUG CLASS,vanH_in_vanB_cl
+vanH gene in vanF cluster,GLYCOPEPTIDE,DRUG CLASS,vanH_in_vanF_cl
+vanH gene in vanO cluster,GLYCOPEPTIDE,DRUG CLASS,vanH_in_vanO_cl
+vanI,GLYCOPEPTIDE,DRUG CLASS,vanI
+vanR gene in vanA cluster ,,,
+vanT gene in vanG cluster,GLYCOPEPTIDE,DRUG CLASS,vanT_in_vanG_cl
+vanW gene in vanB cluster,GLYCOPEPTIDE,DRUG CLASS,vanW_in_vanB_cl
+vanW gene in vanG cluster,GLYCOPEPTIDE,DRUG CLASS,vanW_in_vanG_cl
+vanX gene in vanI cluster,GLYCOPEPTIDE,DRUG CLASS,vanX_in_vanI_cl
+vanY gene in vanB cluster,GLYCOPEPTIDE,DRUG CLASS,vanY_in_vanB_cl
+vanY gene in vanF cluster,GLYCOPEPTIDE,DRUG CLASS,vanY_in_vanF_cl
+vanY gene in vanM cluster,GLYCOPEPTIDE,DRUG CLASS,vanY_in_vanM_cl
+YajC,EFFLUX,MECHANISM,YajC

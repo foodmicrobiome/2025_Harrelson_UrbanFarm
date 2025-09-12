@@ -1,0 +1,1336 @@
+---
+title: "MDR_UF"
+author: "Erin Harrelson"
+date: "2025-08-20"
+output: html_document
+---
+
+#Introduction to paper
+
+This is the R script used to make the visuals for the orginal research article 'Multidrug Resistance in Bacteria Associated with Leafy Greens and Soil in Urban Agriculture Systems'
+
+#Libraries
+```{r}
+library(tidyverse)
+library(data.table)
+library(RColorBrewer) 
+library(ComplexHeatmap)
+library(circlize)
+library(plotly)
+```
+
+#input files
+```{r}
+#metadata
+metadata <- read.delim("inputs/metadata.csv", header=T, sep = ",")
+
+#checkM for genome size
+checkm <- read.delim("inputs/checkm_parsed.tsv", header=T)
+
+#gdbtk
+classification <- read.delim("inputs/GTdbk_UF.csv", header = T, sep = ",")
+
+#AMR_finder
+AMRF_folder <- "inputs/amr_finder"
+
+#CARD
+CARD_folder <- "inputs/card_files"
+
+#manually made file to make AMRFinder style antibiotic Class classification for each card gene (CARD Website has these classes)
+CARD_info <- read.delim("inputs/CARD_Class_info.txt", header = T)
+
+#mobile OG
+MGE_folder <- "inputs/MGE"
+
+#mobileog mapping dataframe downloaded from mobileOG website to classify the MGE
+mapping_df <- read.delim("inputs/mobileOG_class_information.tsv", header=T)
+
+#phenotype data
+phenotype <- read.delim("inputs/UF-phenotypes.csv", header = T, sep = ",")
+```
+
+Making AMRFinderPlus results into one dataframe with added Isolate_ID column
+```{r}
+#files
+MDR_IDs <- metadata$Isolate_ID
+
+amr_MDR_files <- paste(MDR_IDs, "_amr", sep = "")
+amr_MDR <- list()
+
+#loop to add all files in folder to one R object
+for (x in amr_MDR_files) {
+  file_path <- file.path(AMRF_folder, x)
+  if (file.exists(file_path)) {
+   amr_MDR[[x]] <- read.table(file_path, header = TRUE, sep = "\t", fill = TRUE)
+ }
+}
+
+#removes files with zero hits and say which have zero
+removed_dfs <- names(amr_MDR)[sapply(amr_MDR, nrow) < 1]
+if (length(removed_dfs) > 0) {
+  cat("Isolates that have no AMR genes detected:", paste(removed_dfs, collapse = ", "), "\n")
+} else {
+  cat("All MDR isolates contained AMR genes according to AMR finder.\n")
+}
+
+#combine dataframes and add a column indicating their origin
+combined_AMR_MDR <- map_dfr(names(amr_MDR), function(df_name) {
+  amr_MDR[[df_name]] %>%
+    mutate(across(everything(), as.character), # Convert specific column to character
+           "Isolate_ID" = sub("_amr", "", df_name))
+})
+
+
+```
+
+Making CARD results into one dataframe with added source column
+```{r}
+#files
+CARD_MDR_files <- paste(MDR_IDs, "_card.txt", sep = "")
+CARD_MDR <- list()
+
+#loop to add all files in folder to one R object
+for (x in CARD_MDR_files) {
+  file_path <- file.path(CARD_folder, x)
+  if (file.exists(file_path)) {
+   CARD_MDR[[x]] <- read.table(file_path, header = TRUE, sep = "\t", fill = TRUE, comment = "")
+ }
+}
+
+#removes files with zero hits and say which have zero
+removed_dfs <- names(CARD_MDR)[sapply(CARD_MDR, nrow) < 1]
+if (length(removed_dfs) > 0) {
+  cat("Isolates that have no CARD genes detected:", paste(removed_dfs, collapse = ", "), "\n")
+} else {
+  cat("All MDR isolates contained CARD genes according to CARD.\n")
+}
+
+#combine dataframes and add a column indicating their origin
+combined_CARD_MDR <- map_dfr(names(CARD_MDR), function(df_name) {
+  CARD_MDR[[df_name]] %>%
+    mutate(across(everything(), as.character), # Convert specific column to character
+           "Isolate_ID" = sub("_card.txt", "", df_name))
+})
+
+
+```
+
+Making one MGE dataframe
+```{r}
+#files
+MGE_MDR_files <- paste(MDR_IDs, ".contig.fasta.mobileOG.Alignment.Out.csv", sep = "")
+MGE_MDR <- list()
+
+#seperates Ecoli AMR from MDR AMR
+for (x in MGE_MDR_files) {
+  file_path <- file.path(MGE_folder, x)
+  if (file.exists(file_path)) {
+   MGE_MDR[[x]] <- read.table(file_path, header = TRUE, sep = ",", fill = TRUE, comment.char = "")
+ }
+}
+
+#removing empty mge files
+removed_dfs <- names(MGE_MDR)[sapply(MGE_MDR, nrow) < 1]
+if (length(removed_dfs) > 0) {
+  cat("Isolates that have no MGE genes detected:", paste(removed_dfs, collapse = ", "), "\n")
+} else {
+  cat("All MDR isolates contained MGE genes")
+}
+
+# Filter the list to remove data frames with less than 1 row
+MGE_MDR <- Filter(function(df) nrow(df) >= 1, MGE_MDR)
+
+
+# Combine dataframes and add a column indicating their origin
+combined_MGE_MDR <- map_dfr(names(MGE_MDR), function(df_name) {
+  MGE_MDR[[df_name]] %>%
+    mutate(across(everything(), as.character), # Convert specific column to character
+           source = sub(".contig.fasta.mobileOG.Alignment.Out.csv", "", df_name))
+})
+
+combined_MGE_MDR <- combined_MGE_MDR %>% filter(source %in% MDR_IDs)
+
+#filtering out "Only in Aclame" hits
+ACLAME <- as.list(mapping_df$mobileOG.Entry.Name[(mapping_df$MGE_Class == "Only detected in ACLAME")])
+
+combined_MGE_MDR <- combined_MGE_MDR %>% filter(!mobileOG.ID %in% ACLAME)
+
+#dereplicate 
+MGE_data <- combined_MGE_MDR %>%
+  group_by(Specific.Contig, ORF_Start, source) %>%
+  slice_max(order_by = Bitscore, with_ties = FALSE) %>%
+  ungroup()
+
+#matching
+MGE_data <- merge(MGE_data, mapping_df, by.x = "mobileOG.ID", by.y = "mobileOG.Entry.Name")
+```
+
+#classification
+```{r}
+#splitting the Levels
+classification[c("domain", "phylum", "class", 
+                      "order", "family", "genus", "species")] <- do.call(rbind,
+                                                                         strsplit(classification$classification, ";"))
+
+#fix names 
+classification$genus <- sub("g__Pseudomonas_E", "g__Pseudomonas", classification$genus)
+classification$genus <- sub( "g__Providencia_C","g__Providencia", classification$genus)
+
+classification$genus <- gsub("g__", "", classification$genus)
+classification$species <- gsub("s__", "", classification$species)
+classification$phylum <- gsub("p__", "", classification$phylum)
+
+#Indicate that the two unclassified Chryseobacterium species are different species (making the A and B)
+#### We determined that these were different species from dRep. 
+#### NO other unknown species with same genus were found to be different species
+
+classification$clean_sp[classification$Isolate_ID == "UF-290"] <- "Chryseobacterium sp (A)"
+classification$clean_sp[classification$Isolate_ID == "UF-81"] <- "Chryseobacterium sp (B)"
+
+#combining Pseduomonas and Providencia to be all one genus (GTDB-tk database specification we will obmit)
+Pseduomonas <- c("g__Pseudomonas", "g__Pseudomonas_E")
+Providencia <- c("g__Providencia", "g__Providencia_C")
+
+#count
+genus_freq <- as.data.frame(table(classification$genus))
+
+#rename columns
+colnames(genus_freq) <- c("genus", "Count")
+
+#merge with original dataframe to add Phylum
+genus_freq <- merge(genus_freq, classification[, c("genus", "phylum")], by = "genus", all.x = TRUE)
+
+#remove duplicate rows
+genus_freq <- genus_freq[!duplicated(genus_freq$genus), ]
+
+#reorder so that genus and phylum line up properly 
+genus_freq <- genus_freq[order(genus_freq$phylum),]
+
+#merge with metadata
+classification2 <- classification %>% select(Isolate_ID, classification, clean_sp, domain,
+                                            phylum, class, order, family, genus, species)
+
+Class_metadata <- merge(classification2, metadata, by = "Isolate_ID")
+```
+
+Colors for pie chart figure
+```{r}
+#genus figure colors to be used throughout the rest of figures
+Phylum_colors <- c("#8B008B", "#D2691E", "#000080", "#556B2F")
+Phylum_colors <- setNames(Phylum_colors, 
+                          c("Actinomycetota", "Bacillota","Bacteroidota","Pseudomonadota"))
+
+genus_colors <- list("Streptomyces" = "#DA70D6", "Bacillus_A" = "#FFA07A",
+                   "Lysinibacillus" = "#FFB6C1","Chryseobacterium" = "#87CEE4",
+                   "Acinetobacter" = "#7FFF00","Burkholderia" = "#006400",
+                   "Klebsiella"= "#BDB76B","Kosakonia"="#8FBC8F",
+                   "Morganella"="#228B22", "Ochrobactrum"="#ADFF2F",
+                 "Providencia" = "#90EE90","Pseudomonas"= "#3CB371",
+                 "Serratia"= "#808000","Stenotrophomonas"="#9ACD32")
+
+
+#hack for pie chart bc it is not working the other way but i want to keep colors for other figs
+colorway_colors <- c("#DA70D6","#FFA07A", "#FFB6C1", "#87CEEB", "#7FFF00","#006400",
+                     "#BDB76B","#8FBC8F", "#228B22", "#ADFF2F","#90EE90","#3CB371",
+                     "#808000","#9ACD32","#8B008B", "#D2691E", "#4682B4","#556B2F")
+
+```
+
+## Figure 1 A
+```{r}
+#nested pie chart B)
+genus_pie <- plot_ly(genus_freq ,labels = ~genus, values = ~Count,
+               showlegend = FALSE
+                ) %>%
+
+        add_pie(hole = 0.6,
+                textinfo = 'label+value',
+                #textposition = 'inside',
+                insidetextfont = list(color = '#FFFFFF'),
+                marker = list(line = list(color = '#FFFFFF', width = 1)),
+                direction = 'clockwise',
+                sort = FALSE,
+                hoverinfo = 'text + percent',
+                xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+                yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE)) %>%
+
+        add_pie(genus_freq,labels = ~phylum, values = ~Count,
+                textinfo = 'label',
+                textposition = 'inside',
+                direction = 'clockwise',
+                sort = FALSE,
+                name = "Phylum Data",
+                #colors = Phylum_colors,
+                marker = list(line = list(color = '#FFFFFF', width = 1)), 
+                domain = list(x = c(.2, 0.8), y = c(0.2, .8))) %>%
+  plotly::layout( colorway = colorway_colors)
+
+#uncomment this to save the plot
+#orca(genus_pie, "plots/Genus_pie.svg")
+
+genus_pie
+```
+
+##Figure 1 B
+```{r}
+Class_metadata$Isolation_source <- gsub("green", "Green", Class_metadata$Isolation_source)
+#genus per isolation source
+count_genus <- Class_metadata %>% 
+  select(Isolation_source, genus) %>%
+  group_by(Isolation_source) %>%
+  count(genus)
+
+
+count_genus$Isolation_source <- gsub("_", " ", count_genus$Isolation_source)
+#fix order
+count_genus$Isolation_source <- factor(count_genus$Isolation_source, 
+                                       levels = c("Leafy Green", "Root Zone Soil", "Bulk Soil"))
+count_genus$genus <- factor(count_genus$genus,
+                            levels = c("Streptomyces","Bacillus_A","Lysinibacillus",
+                                       "Chryseobacterium","Acinetobacter","Burkholderia",
+                                       "Klebsiella","Kosakonia","Morganella","Ochrobactrum",
+                                       "Providencia","Pseudomonas","Serratia",
+                                       "Stenotrophomonas"))
+
+
+#svg("plots/Isolates_per_source.svg")
+ggplot(count_genus, aes(x = Isolation_source, y = n, fill = genus)) +
+  geom_bar(position = "stack", stat = "identity") +
+  scale_fill_manual(values= genus_colors) +
+  labs(x = "", y = "", 
+       title = "Isolates per Isolation Source") + 
+  theme_minimal() +
+  theme(axis.text.x = element_text(size = 15)) +
+  guides(fill = "none")
+#dev.off
+```
+
+#Phenotypes
+```{r}
+#ranking to order based on phylum and genus 
+Class_metadata <- Class_metadata %>%
+  arrange(phylum, genus,clean_sp)
+
+Class_metadata$rank <- 1:nrow(Class_metadata)
+
+#column with ID and species
+Class_metadata$new_lab <-  mapply(function(a, b) paste(a, b, sep = " | "),
+                                 Class_metadata$clean_sp,
+                                 Class_metadata$Isolate_ID)
+
+new_naming <- subset.data.frame(Class_metadata, select = c("Isolate_ID", "new_lab", "rank")) 
+#new df for phenotype matrix
+species_labels <- subset(Class_metadata, 
+                         select = c("Isolate_ID","genus", "clean_sp", "rank"))
+ 
+#order of species
+species_order <- unique(species_labels$clean_sp)
+
+#add new names
+phenotype_names <- merge(species_labels, phenotype, by = "Isolate_ID")
+
+phenotype_names <- setorder(phenotype_names, rank)
+#phenotype matrix
+phenotype_matrix <- phenotype_names[c("Amp_TR", "Azith_TR",
+                                      "Cip_TR", "Chlor_TR",
+                                      "Cef_TR", "Gen_TR", "Tet_TR")]
+rownames(phenotype_matrix) <- phenotype_names$species_labels
+phenotype_matrix <- phenotype_matrix[,c("Amp_TR","Cef_TR", "Azith_TR",
+                                                "Cip_TR" ,"Gen_TR", "Tet_TR","Chlor_TR")] 
+
+#relable phenotypes 
+phenotype_col_lab <- c("Ampicillin","Cefotaxime", "Azithromycin","Ciprofloxacin", 
+                       "Gentamicin", "Tetracycline","Chloramphenicol")
+phenotype_col_lab <- setNames(phenotype_col_lab, c("Amp_TR", "Cef_TR","Azith_TR",
+                                                   "Cip_TR","Gen_TR", "Tet_TR","Chlor_TR"))
+
+#making avg phenotype
+avg_phenotype <- merge(species_labels, phenotype, by = "Isolate_ID")
+avg_phenotype <- avg_phenotype[order(avg_phenotype$rank),]
+
+#phenotype matrix
+avg_phenotype_matrix <- avg_phenotype[c("Amp_TR", "Cef_TR","Azith_TR",
+                                        "Cip_TR", "Gen_TR", "Tet_TR","Chlor_TR")]
+avg_phenotype_matrix$rownames <- avg_phenotype$clean_sp
+
+#averaging 
+avg_phenotype_matrix <- aggregate(avg_phenotype_matrix[,sapply(avg_phenotype_matrix, is.numeric)], avg_phenotype_matrix["rownames"],mean)
+
+avg_phenotype_matrix <- avg_phenotype_matrix %>% column_to_rownames(var = "rownames")
+
+avg_phenotype_matrix <- avg_phenotype_matrix[order(match(rownames(avg_phenotype_matrix), species_order)), , drop = FALSE]
+
+#write.table(avg_phenotype_matrix, "tables_out/pheno_avg.tsv", sep = "\t")
+
+#genus colors 
+genus_info <- Class_metadata %>% group_by(phylum, genus, clean_sp) %>% 
+  summarise(count = sum(!is.na(genus)), .groups = 'drop')
+
+genus_info <- setorder(genus_info, phylum)
+
+#text colors
+text_color_avg <- c("#DA70D6", rep("#FFA07A", 6), "#FFB6C1", rep("#87CEE4", 2),
+                    "#7FFF00",rep("#006400", 2),"#BDB76B","#8FBC8F", "#228B22",
+                    "#ADFF2F",rep("#90EE90", 4), rep("#3CB371", 16),
+                    rep("#808000", 5),rep("#9ACD32", 2))
+
+text_color_avg <- setNames(text_color_avg, genus_info$clean_sp)
+
+
+#counts
+Source_info_avg <- Class_metadata %>% group_by(clean_sp, Isolation_source) %>% 
+  summarise(count = sum(!is.na(Isolation_source)), .groups = 'drop')
+
+#reformat
+Source_mat <- Source_info_avg %>%
+  pivot_wider(names_from = Isolation_source, values_from = count, values_fill = 0) %>%
+  column_to_rownames("clean_sp") %>%
+  as.matrix()
+#Class colors of phenotype
+phenotype_colors <- c("green4","green4","lavenderblush4",
+                      "violetred3", "slateblue4", "darkorange","black")
+
+phenotype_colors <- setNames(phenotype_colors, c("Ampicillin", "Cefotaxime","Azithromycin",
+                              "Chloramphenicol","Gentamicin", "Tetracycline","Ciprofloxacin" ))
+#colors for isolation source
+source_colors <- c("Leafy Green" = "green", "Root Zone Soil" = "blue", "Bulk Soil" = "yellow")
+
+Source_mat_p <- Source_mat[rownames(avg_phenotype_matrix), , drop = FALSE]
+
+#annotation for isolation source
+avg_sour_ano_p <- rowAnnotation(
+  num = anno_barplot(
+    Source_mat_p, 
+    bar_width = 1,
+    width = unit(2, "cm"),
+    background = TRUE,
+    gp = gpar(fill = source_colors[colnames(Source_mat_p)]),
+    border = TRUE
+  ),
+  annotation_legend_param = list(
+    title = "Isolation Source", 
+    at = names(source_colors),
+    legend_gp = gpar(fill = unname(source_colors)),
+    title_position = "lefttop-rot"
+  ),
+  show_legend = TRUE,
+  show_annotation_name = TRUE,
+  annotation_name_side = "bottom"
+)
+#legends
+source_anno_legend <-list(Legend(labels = names(source_colors),
+                             legend_gp = gpar(fill = source_colors), 
+                             title = "Isolation Source", legend_height = unit(2, "cm")))
+
+```
+
+##Figure 2 panel 1
+```{r}
+#heatmap
+pheno_avg_heat <- Heatmap(
+      avg_phenotype_matrix,
+      col = c("white", "darkblue"),
+      column_title = "Phenotype",
+      column_title_side = "bottom",
+      #right_annotation = avg_sour_ano_p,
+      column_labels = phenotype_col_lab,
+      column_title_rot = 0,
+      column_names_rot = 90,
+      column_names_gp = gpar(fontsize = 12,col = phenotype_colors),
+      cluster_columns = FALSE,
+      cluster_rows = FALSE,
+      #use_raster = TRUE, raster_resize_mat = TRUE,
+      row_order = species_order,
+      row_dend_reorder = FALSE,
+      #row_title = "Species",
+      row_names_centered = FALSE,
+      #row_labels = gt_render(rownames(avg_phenotype_matrix_it)),
+      row_names_side = "left",
+      column_names_centered = FALSE,
+      row_names_gp = gpar(fontsize = 12, col = text_color_avg[rownames(avg_phenotype_matrix)], fontface = "italic"),
+      rect_gp = gpar(col = "black", lwd = 1),
+      height = 12,
+      width = 19,
+      show_heatmap_legend = TRUE,
+      heatmap_legend_param = list(col_fun = c("white", "darkblue"), 
+                                    title = "Avg Pheno", 
+                                    title_position = "lefttop-rot",
+                                    #direction = "horizontal",
+                                    at = c(0, 0.5, 1), 
+                                    labels = c("0: Susceptible", "0.5", "1: Resistant")),
+
+        )
+average_pheno_Heatmap <- draw(pheno_avg_heat, merge_legend = TRUE,
+                              annotation_legend_list = source_anno_legend, #will be combined later
+                              heatmap_legend_side = "left")
+#uncomment to save
+#svg("plots/avg_pheno_heat.svg")
+
+average_pheno_Heatmap
+#uncomment to save
+#dev.off
+```
+
+#AMRFINDERPLUS
+AMRfinderplus Data matrix for all isolates
+```{r}
+#add new_naming
+AMRfinder_data <- merge(combined_AMR_MDR, new_naming, by = "Isolate_ID")
+
+#fix tabs in names
+AMRfinder_data$Gene.symbol <- gsub("\t", "-",AMRfinder_data$Gene.symbol )
+
+#all labels bc some don't have AMRfinder_data (no hits)
+all_new_labs <- unique(new_naming$new_lab)
+
+#subset AMR from Virulence and Stress genes
+AMR_data <- AMRfinder_data %>%
+  filter(Element.type %in% "AMR")
+
+other_genetypes <- c("STRESS", "VIRULENCE")
+  
+Oth_gene_data <- AMRfinder_data %>%
+  filter(Element.type %in% other_genetypes)
+
+#make AMR df for heatmap
+AMR_heat_matrix <- AMR_data %>%
+  select(Gene.symbol, new_lab) %>%
+  distinct() %>%                           # remove duplicates if any
+  mutate(present = 1) %>%                  # assign presence as 1
+  tidyr::pivot_wider(names_from = new_lab, values_from = present, values_fill = 0) %>%
+  as.data.frame()
+
+#adds back missing isolates that didnt have AMRFinder genes
+missing_labs <- setdiff(all_new_labs, colnames(AMR_heat_matrix))
+for (lab in missing_labs) {
+  AMR_heat_matrix[[lab]] <- 0
+}
+
+# Set Gene.symbol as rownames and remove the column
+rownames(AMR_heat_matrix) <- AMR_heat_matrix$Gene.symbol
+AMR_heat_matrix$Gene.symbol <- NULL
+
+#clean up gene names
+for (i in 1:nrow(AMR_heat_matrix)) {
+  val <- rownames(AMR_heat_matrix)[i]
+    rownames(AMR_heat_matrix)[i] <- strsplit(val, " ")[[1]][1]
+}
+
+#other gene matrix for virulecne and metal genes :)
+
+Oth_gene_matrix <- Oth_gene_data %>%
+  select(Gene.symbol, new_lab) %>%
+  distinct() %>%                           # remove duplicates if any
+  mutate(present = 1) %>%                  # assign presence as 1
+  tidyr::pivot_wider(names_from = new_lab, values_from = present, values_fill = 0) %>%
+  as.data.frame()
+
+#adds back missing isolates that didnt have AMRFinder genes
+missing_labs <- setdiff(all_new_labs, colnames(Oth_gene_matrix))
+for (lab in missing_labs) {
+  Oth_gene_matrix[[lab]] <- 0
+}
+
+# Set Gene.symbol as rownames and remove the column
+rownames(Oth_gene_matrix) <- Oth_gene_matrix$Gene.symbol
+Oth_gene_matrix$Gene.symbol <- NULL
+
+```
+
+Annotation for the genes
+```{r}
+#AMR gene ino 
+AMR_gene_info <- AMR_data %>%
+  select(Gene.symbol, Class ) %>%
+  distinct() %>%
+  as.data.frame()
+
+#fill empty cells
+AMR_gene_info$Class[AMR_gene_info$Class==""]<-"Not specified"
+
+rownames(AMR_gene_info) <- AMR_gene_info$Gene.symbol
+AMR_gene_info$Gene.symbol <- NULL
+
+#transpose matrix
+t_AMR_heat_matrix <- t(AMR_heat_matrix)
+
+#write.csv(as.data.frame(t_AMR_heat_matrix), "tables_out/AMR_heat.csv")
+#making gene order
+Class_order <- order(AMR_gene_info$Class)
+
+# Reorder columns in heatmap matrix
+t_AMR_heat_matrix <- t_AMR_heat_matrix[, Class_order]
+
+
+# Reorder gene info to match new column order
+AMR_gene_info <- AMR_gene_info[Class_order, , drop = FALSE]
+
+AMR_anno <- HeatmapAnnotation(Class = AMR_gene_info$Class, which = "column",
+                                   col = list(Class = c(
+                                     "EFFLUX" = "gray1",
+                                     "BETA-LACTAM" = "green4",
+                                     "STREPTOTHRICIN" = "lightblue4",
+                                     "FLUOROQUINOLONE" = "violetred3",
+                                     "AMINOGLYCOSIDE" = "slateblue4",
+                                     "TETRACYCLINE" = "darkorange",
+                                     "FOSFOMYCIN" = "aquamarine3",
+                                     "GLYCOPEPTIDE" = "maroon4",
+                                     "PHENICOL" = "yellow2", 
+                                     "QUINOLONE" = "lightpink3", #AMR only
+                                     "PHENICOL/QUINOLONE" = "indianred3", #AMR only
+                                     "KANAMYCIN" = "orangered3" #, #AMRf only
+                                     #"BIOCIDE" = "navy", #AMRf only
+                                    #"METAL" = "gold4",  #AMRf only
+                                    #"VIRULENCE" = "darkred",  #AMRf only
+                                    # "PEPTIDE" = "blue4", #CARD only
+                                    # "MACROLIDE" = "lavenderblush4",  #CARD only
+                                    # "RIFAMYCIN" = "orchid4"  #Card only
+                                     )),
+                              show_annotation_name = FALSE)
+#Other_anno 
+#AMR gene ino 
+other_gene_info <- Oth_gene_data %>%
+  select(Gene.symbol, Element.subtype ) %>%
+  distinct() %>%
+  as.data.frame()
+
+#fill empty cells
+other_gene_info$Element.subtype[other_gene_info$Element.subtype==""]<-"Not specified"
+
+rownames(other_gene_info) <- other_gene_info$Gene.symbol
+other_gene_info$Gene.symbol <- NULL
+
+#transpose matrix
+t_Oth_gene_matrix <- t(Oth_gene_matrix)
+#write.csv(as.data.frame(t_Oth_gene_matrix), "tables_out/oth_heat.csv")
+
+#making gene order
+Element_order <- order(other_gene_info$Element.subtype)
+
+# Reorder columns in heatmap matrix
+t_Oth_gene_matrix <- t_Oth_gene_matrix[, Element_order]
+
+# Reorder gene info to match new column order
+other_gene_info <- other_gene_info[Element_order, , drop = FALSE]
+
+#colors for Other genes
+
+other_anno <- HeatmapAnnotation(Element = other_gene_info$Element.subtype,
+                                which = "column",
+                                col = list(Element = c("METAL" = "gold4",
+                                           "VIRULENCE" = "darkred",
+                                           "BIOCIDE" = "navy")),
+                                show_annotation_name = FALSE)
+
+```
+
+##Figure 2 panel 2
+```{r}
+avg_genotype_A <- merge(species_labels, AMR_data, by = "Isolate_ID")
+avg_genotype_A <- setorder(avg_genotype_A, rank.x)
+#AMR Class matrix
+Class_matrix <- avg_genotype_A %>%
+  select(Isolate_ID, Class, clean_sp) %>%
+  distinct() %>%  # one row per Isolate-Class-Species
+  mutate(present = 1) %>%
+  distinct(Isolate_ID, Class, clean_sp, .keep_all = TRUE) %>%
+  group_by(Class, clean_sp) %>%
+  summarise(n_present = sum(present), .groups = "drop") %>%
+  left_join(avg_genotype_A %>%
+              select(Isolate_ID, clean_sp) %>%
+              distinct() %>%
+              count(clean_sp, name = "total_isolates"),
+            by = "clean_sp") %>%
+  mutate(avg_presence = n_present / total_isolates) %>%
+  select(Class, clean_sp, avg_presence) %>%
+  pivot_wider(names_from = clean_sp, values_from = avg_presence, values_fill = 0) %>%
+  as.data.frame()
+
+#adds back missing isolates that didnt have AMRFinder genes
+missing_labs <- setdiff(species_labels$clean_sp, colnames(Class_matrix))
+for (lab in missing_labs) {
+  Class_matrix[[lab]] <- 0
+}
+
+# Set Gene.symbol as rownames and remove the column
+rownames(Class_matrix) <- Class_matrix$Class
+Class_matrix$Class <- NULL
+
+
+#other gene matrix for virulecne and metal genes :)
+avg_genotype_O <- merge(species_labels, Oth_gene_data, by = "Isolate_ID")
+avg_genotype_O <- setorder(avg_genotype_O, rank.x)
+
+Oth_Class_matrix <- avg_genotype_O %>%
+  select(Isolate_ID, Element.subtype, clean_sp) %>%
+  distinct() %>%  # one row per Isolate-Class-Species
+  mutate(present = 1) %>%
+  distinct(Isolate_ID, Element.subtype, clean_sp, .keep_all = TRUE) %>%
+  group_by(Element.subtype, clean_sp) %>%
+  summarise(n_present = sum(present), .groups = "drop") %>%
+  left_join(avg_genotype_O %>%
+              select(Isolate_ID, clean_sp) %>%
+              distinct() %>%
+              count(clean_sp, name = "total_isolates"),
+            by = "clean_sp") %>%
+  mutate(avg_presence = n_present / total_isolates) %>%
+  select(Element.subtype, clean_sp, avg_presence) %>%
+  pivot_wider(names_from = clean_sp, values_from = avg_presence, values_fill = 0) %>%
+  as.data.frame()
+
+#adds back missing isolates that didnt have AMRFinder genes
+missing_labs <- setdiff(species_labels$clean_sp, colnames(Oth_Class_matrix))
+for (lab in missing_labs) {
+  Oth_Class_matrix[[lab]] <- 0
+}
+
+# Set Gene.symbol as rownames and remove the column
+rownames(Oth_Class_matrix) <- Oth_Class_matrix$Element.subtype
+Oth_Class_matrix$Element.subtype <- NULL
+
+#combine both other and AMR genes for one matrix
+Matrix_full <- Class_matrix %>% bind_rows(Oth_Class_matrix)
+t_Matrix_full <- as.matrix(t(Matrix_full))
+
+t_Matrix_full <- t_Matrix_full[rownames(avg_phenotype_matrix),]
+
+Source_mat_Class <- Source_mat[rownames(t_Matrix_full), , drop = FALSE]
+
+
+#annotation for isolation source
+avg_sour_ano_CL <- rowAnnotation(
+  num = anno_barplot(
+    Source_mat_Class, 
+    bar_width = 1,
+    background = TRUE,
+    gp = gpar(fill = source_colors[colnames(Source_mat_Class)]),
+    border = TRUE
+  ),
+  annotation_legend_param = list(
+    title = "Isolation Source", 
+    at = names(source_colors),
+    legend_gp = gpar(fill = unname(source_colors)),
+    title_position = "lefttop-rot"
+  ),
+  show_legend = TRUE,
+  show_annotation_name = TRUE,
+  annotation_name_side = "bottom"
+)
+
+#Class colors TO MATCH PHENOTYPLE
+Class_colors <- c("black","green4","lightblue4", 
+                  "violetred3","slateblue4", "darkorange", "aquamarine3", "maroon4",
+                  "yellow2","lightpink3","indianred3","orangered3","gold4","darkred","navy")
+                  
+                  
+Class_colors <- setNames(Class_colors, c("EFFLUX","BETA-LACTAM","STREPTOTHRICIN",
+                                         "FLUOROQUINOLONE","AMINOGLYCOSIDE","TETRACYCLINE",
+                                         "FOSFOMYCIN","GLYCOPEPTIDE","PHENICOL", "PHENICOL/QUINOLONE",
+                                         "KANAMYCIN","QUINOLONE", "METAL", "VIRULENCE", "BIOCIDE" ))
+#heatmap
+AMR_order <- names(Class_colors)
+g <- Heatmap(t_Matrix_full, name = "Genotype",
+        col = c("white", "red"),
+        column_title = "AMRFinderPlus",
+        column_title_side = "bottom",        
+        #row_split = c("Actinomycetota", rep("Bacillota",7),"Bacteroidota",rep("Pseudomonadota", 34)),
+        row_order = species_order,
+        column_order = AMR_order,
+        #right_annotation = avg_sour_ano_CL,
+        #column_labels = phenotype_col_lab,
+        #column_title_rot = ,
+        column_names_gp = gpar(fontsize = 12, col = Class_colors[colnames(t_Matrix_full)]),
+        cluster_columns = FALSE,
+        row_dend_reorder = FALSE, 
+        row_title = "",
+        column_names_rot = 90,
+        row_names_side = "left",
+        #row_km = 2,
+        row_names_centered = FALSE,
+        column_names_centered = FALSE,
+        row_names_gp = gpar(fontsize = 10, col = text_color_avg[rownames(t_Matrix_full)]),
+        rect_gp = gpar(col = "black", lwd = 1),
+        height = 20,
+        width = 45,
+        heatmap_legend_param = list(col_fun = c("white", "red"), 
+                                    title = "Avg AMRF+ Geno", 
+                                    title_position = "lefttop-rot",
+                                    #direction = "horizontal",
+                                    at = c(0, 0.5, 1), 
+                                    labels = c("0", "0.5", "1"))
+        
+        )
+heat_other <- draw(g, merge_legend = TRUE, heatmap_legend_side = "right", 
+                      annotation_legend_list = source_anno_legend )
+
+heat_other
+```
+
+#CARD
+```{r}
+CARD_data <- merge(combined_CARD_MDR, new_naming, , by = "Isolate_ID")
+
+#merge with info 
+CARD_data2 <- merge(CARD_data, CARD_info, by = "Best_Hit_ARO")
+avg_geno_all_C <- merge(species_labels, CARD_data2, by = "Isolate_ID")
+avg_geno_all_C <- setorder(avg_geno_all_C, rank.x)
+
+#AMR Class matrix
+C_Class_matrix <- avg_geno_all_C %>%
+  select(Isolate_ID, AMRfinder_style_CLASS, clean_sp) %>%
+  distinct() %>%  # one row per Isolate-Class-Species
+  mutate(present = 1) %>%
+  distinct(Isolate_ID, AMRfinder_style_CLASS, clean_sp, .keep_all = TRUE) %>%
+  group_by(AMRfinder_style_CLASS, clean_sp) %>%
+  summarise(n_present = sum(present), .groups = "drop") %>%
+  left_join(avg_geno_all_C %>%
+              select(Isolate_ID, clean_sp) %>%
+              distinct() %>%
+              count(clean_sp, name = "total_isolates"),
+            by = "clean_sp") %>%
+  mutate(avg_presence = n_present / total_isolates) %>%
+  select(AMRfinder_style_CLASS, clean_sp, avg_presence) %>%
+  pivot_wider(names_from = clean_sp, values_from = avg_presence, values_fill = 0) %>%
+  as.data.frame()
+
+
+# Set Gene.symbol as rownames and remove the column
+rownames(C_Class_matrix) <- C_Class_matrix$AMRfinder_style_CLASS
+C_Class_matrix$AMRfinder_style_CLASS <- NULL
+
+t_CARD_class <- as.matrix(t(C_Class_matrix))
+```
+
+Class heatmap
+```{r}
+t_CARD_class  <- t_CARD_class[rownames(avg_phenotype_matrix), ]
+
+Source_mat_Class_C <- Source_mat[rownames(t_CARD_class), , drop = FALSE]
+
+
+
+#Class colors TO MATCH PHENOTYPLE
+Class_col_C <- c( "gray1","green4","lightblue4",
+                  "violetred3","slateblue4","darkorange",
+                  "aquamarine3", "maroon4","yellow2",
+                  "blue4" ,"lavenderblush4","orchid4"
+                 )
+
+Class_col_C <- setNames(Class_col_C, c("EFFLUX","BETA-LACTAM","STREPTOTHRICIN",
+                                       "FLUOROQUINOLONE", "AMINOGLYCOSIDE","TETRACYCLINE",
+                                       "FOSFOMYCIN","GLYCOPEPTIDE","PHENICOL",
+                                       "PEPTIDE", "MACROLIDE","RIFAMYCIN" ))
+
+#heatmap
+Class_card_order <- names(Class_col_C)
+C_all <- Heatmap(t_CARD_class, name = "CARD",
+        col = c("white", "goldenrod2"),
+        column_title = "CARD",
+        column_title_side = "bottom",        
+        row_order = species_order,
+        #right_annotation = avg_sour_ano_CARD,
+        #column_labels = phenotype_col_lab,
+        #column_title_rot = ,
+        column_names_gp = gpar(fontsize = 12,
+                               col = Class_col_C[colnames(t_CARD_class)]),
+        column_order = Class_card_order,
+        cluster_columns = FALSE,
+        row_dend_reorder = FALSE, 
+        row_title = "Species",
+        column_names_rot = 90,
+        row_names_side = "left",
+        #row_km = 2,
+        row_names_centered = FALSE,
+        column_names_centered = FALSE,
+        row_names_gp = gpar(fontsize = 10, col = text_color_avg[rownames(t_CARD_class)]),
+        rect_gp = gpar(col = "black", lwd = 1),
+        height = 20,
+        width = 45,
+        heatmap_legend_param = list(col_fun = c("white", "goldenrod2"), 
+                                    title = "Avg CARD Geno", 
+                                    title_position = "lefttop-rot",
+                                    #direction = "horizontal",
+                                    at = c(0, 0.5, 1), 
+                                    labels = c("0", "0.5", "1")))
+        
+      
+draw(C_all, merge_legend = TRUE, heatmap_legend_side = "right", 
+                      annotation_legend_list = source_anno_legend)
+```
+
+##Full figure 2
+```{r}
+#all together now 
+draw(pheno_avg_heat + g + C_all +avg_sour_ano_p, merge_legend = TRUE,
+     annotation_legend_list = source_anno_legend, ht_gap = unit(0.25, "cm"))
+```
+
+#Comparing database hits
+```{r}
+matched_hits <- list()
+
+#insuring columns that need to be numeric are
+cols.num <- c("Stop","Start")
+AMRfinder_data[cols.num] <- sapply(AMRfinder_data[cols.num],as.numeric)
+CARD_data[cols.num] <- sapply(CARD_data[cols.num],as.numeric)
+
+#find similar matches
+for (i in 1:nrow(AMRfinder_data)) {
+  amr_row <- AMRfinder_data[i, ]
+
+  card_matches <- CARD_data[
+    CARD_data$Isolate_ID == amr_row$Isolate_ID &
+    CARD_data$Orientation == amr_row$Strand &
+    abs(CARD_data$Start - amr_row$Start) <= 100 &
+    abs(CARD_data$Stop - amr_row$Stop) <= 100,
+  ]
+
+  if (nrow(card_matches) > 0) {
+    for (j in 1:nrow(card_matches)) {
+      matched_hits[[length(matched_hits) + 1]] <- data.frame(
+        Isolate_ID = amr_row$Isolate_ID,
+        AMR_gene_symbol = amr_row$Gene.symbol,
+        CARD_Best_hit_ARO = card_matches$Best_Hit_ARO[j],
+        AMR_Class = amr_row$Class,
+        ContigAMR = amr_row$Contig.id,
+        ContigCARD = card_matches$Contig,
+        Strand = amr_row$Strand,
+        AMR_Start = amr_row$Start,
+        AMR_Stop = amr_row$Stop,
+        CARD_Start = card_matches$Start[j],
+        CARD_Stop = card_matches$Stop[j],
+        stringsAsFactors = FALSE
+      )
+    }
+  }
+}
+
+if (length(matched_hits) > 0) {
+  matched_df <- do.call(rbind, matched_hits)
+  print(matched_df)
+} else {
+  print("No matching hits found within 100 bp.")
+}
+matched_df <- merge(matched_df, new_naming, by = "Isolate_ID")
+```
+
+#Figure of genes found
+
+##Figure 3 A
+```{r}
+#make gene info df
+gene_info <- AMRfinder_data %>%
+  select(Gene.symbol, Element.type, Element.subtype, Class ) %>%
+  distinct() %>%
+  as.data.frame()
+
+#gene amounts
+gene_amounts <- as.data.frame(table(AMRfinder_data$Gene.symbol))
+
+#combine
+gene_amounts <- merge(gene_amounts, gene_info, by.x= "Var1", by.y = "Gene.symbol", all = TRUE)
+
+#change metal genes and biocide genes to fit class better
+gene_amounts$Class[gene_amounts$Element.subtype == "BIOCIDE"] <- "BIOCIDE"
+gene_amounts$Class[gene_amounts$Element.subtype == "METAL"] <- "METAL"
+gene_amounts$Class[gene_amounts$Element.subtype == "VIRULENCE"] <- "VIRULENCE"
+#adding virulence in with biocide and metal (no its not a stress gene)
+gene_amounts$Element.type[gene_amounts$Element.type == "VIRULENCE"] <- "STRESS"
+
+#obmit virulence genes (only relavent to bacillus genus)
+#gene_amounts <- gene_amounts %>% filter(!Element.type %in% "VIRULENCE")
+
+#clean up gene names
+gene_amounts$Var1 <- sub(" .*", "", as.character(gene_amounts$Var1))
+
+#colors for gene Class
+gene_C_colors <- c("navy", "slateblue4","gold4", "green4",
+                       "gray1", "violetred3", "aquamarine3",
+                       "maroon4", "orangered3", "yellow2", "indianred3",
+                       "lightpink3","lightblue4","darkorange", "darkred")
+gene_C_colors <- setNames(gene_C_colors, c("BIOCIDE", "AMINOGLYCOSIDE","METAL","BETA-LACTAM",
+                                           "EFFLUX","FLUOROQUINOLONE","FOSFOMYCIN",
+                                           "GLYCOPEPTIDE","KANAMYCIN","PHENICOL","PHENICOL/QUINOLONE",
+                                           "QUINOLONE","STREPTOTHRICIN","TETRACYCLINE", "VIRULENCE"))
+
+#clean up facet names to be better
+facet_gene <- c("STRESS" = "Other Genes","AMR" = "AMR Genes")
+
+#organize legend
+gene_amounts$Class <- factor(gene_amounts$Class, 
+                             levels = c("EFFLUX","BETA-LACTAM","TETRACYCLINE","FOSFOMYCIN",
+                                        "GLYCOPEPTIDE","PHENICOL","AMINOGLYCOSIDE",
+                                        "STREPTOTHRICIN","QUINOLONE","FLUOROQUINOLONE","KANAMYCIN",
+                                        "PHENICOL/QUINOLONE","VIRULENCE","METAL","BIOCIDE"))
+
+#order based on class and Frequency of element present
+gene_amounts <- gene_amounts %>%
+  arrange(Element.type, 
+          Class,
+          desc(Freq)) %>%
+  mutate(Var1 = factor(Var1, levels = unique(Var1)))
+
+gene_amounts$pro <- gene_amounts$Freq / 87 *100
+
+#plot 
+#svg("plots/gene_amount_amr.svg", width = 11.25, height = 5.6)
+
+ggplot(gene_amounts, aes(x = Var1, y = pro, fill = Class)) +
+  geom_col() +
+  facet_grid(~Element.type, scales = "free_x", space='free_x',labeller = as_labeller(facet_gene)) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 5), legend.position = "right") +
+  scale_fill_manual(values = gene_C_colors) +
+  labs(x = "Gene", 
+       y = "% isolates containing gene") +
+  guides(fill=guide_legend(title="Class", override.aes = list(size = 0.1 ))) +
+  theme(legend.title = element_text(size = 10), 
+               legend.text = element_text(size = 6))
+ 
+
+
+#dev.off
+
+```
+
+##Supp Figure 2 A
+```{r}
+#make gene info df ONLY TOP 50 genes
+#top 50 genes found from CARD
+card_genes <- CARD_data2$short_name
+card_gene_totals <- as.data.frame(table(card_genes))
+
+card_gene_totals <-setDT(card_gene_totals)[order(-Freq)]
+
+colnames(card_gene_totals) <- c("Card_gene", "gene_total_C")
+top_50_CARD <- card_gene_totals$Card_gene[1:50]
+
+#top 50 df
+CARD_50_data <- CARD_data2 %>% filter(short_name %in% top_50_CARD)
+
+#AMR gene ino 
+CARD_gene_info <- CARD_50_data %>%
+  select(short_name, AMRfinder_style_CLASS) %>%
+  distinct() %>%
+  as.data.frame()
+
+rownames(CARD_gene_info) <- CARD_gene_info$short_name
+CARD_gene_info$Best_Hit_ARO <- NULL
+
+
+#df
+gene_amounts_C <- CARD_50_data %>%
+  select(short_name, Isolate_ID , AMRfinder_style_CLASS ) %>%
+  distinct() %>%
+  mutate() %>%
+  select(short_name, AMRfinder_style_CLASS) %>%
+  add_count(short_name) %>%
+  distinct() %>%
+  as.data.frame()
+
+gene_amounts_C$pro <- gene_amounts_C$n / 87 *100
+gene_amounts_C$AMR <- "AMR Genes"
+
+#organize legend
+gene_amounts_C$AMRfinder_style_CLASS <- factor(gene_amounts_C$AMRfinder_style_CLASS, 
+                                               levels = c("EFFLUX","GLYCOPEPTIDE","BETA-LACTAM","PEPTIDE",
+                                                          "TETRACYCLINE","AMINOGLYCOSIDE","FOSFOMYCIN",
+                                                          "FLUOROQUINOLONE"))
+#order based on class and Frequency of element present
+gene_amounts_C <- gene_amounts_C %>%
+  arrange(AMRfinder_style_CLASS,
+          desc(n)) %>%
+  mutate(short_name = factor(short_name, levels = unique(short_name)))
+
+#plot
+ggplot(gene_amounts_C, aes(x = short_name, y = pro, fill = AMRfinder_style_CLASS)) +
+  geom_col() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 5), 
+        legend.position = "right") +
+  scale_fill_manual(values = Class_col_C) +
+  labs(x = "Gene", 
+       y = "% isolates containing gene") +
+  guides(fill=guide_legend(title="Class", override.aes = list(size = 0.1 ))) +
+  theme(legend.title = element_text(size = 10), 
+               legend.text = element_text(size = 6)) +
+  facet_grid(~AMR, scales = "free_x", space='free_x')
+  
+
+
+```
+
+#MGE
+
+```{r}
+#subset
+MGE_table <- merge(MGE_data, new_naming, by.x ="source",by.y = "Isolate_ID")
+
+MGE_isolate_data <- MGE_table %>%
+  count(new_lab, MGE_Class, name = "count") %>%
+  pivot_wider(
+    names_from = MGE_Class,
+    values_from = count,
+    values_fill = 0
+  )
+
+MGE_meta <- merge(MGE_isolate_data, Class_metadata, "new_lab")
+
+MGE_meta <- MGE_meta[order(MGE_meta$rank),]
+
+#order
+species_order <- unique(MGE_meta$clean_sp)
+
+mge_cols <- c(
+  "Plasmid",
+  "Conjugative Element (CE)",
+  "Insertion Sequence (IS)",
+  "Phage",
+  "Phage,Plasmid",
+  "Plasmid,Conjugative Element (CE)",
+  "Integrative Element (IGE)",
+  "Phage,Conjugative Element (CE)",
+  "Integrative Element (IGE),Conjugative Element (CE)",
+  "Insertion Sequence (IS),Phage"
+)
+
+#long format
+MGE_long <- MGE_meta %>%
+  select(clean_sp, all_of(mge_cols)) %>%
+  pivot_longer(
+    cols = all_of(mge_cols),
+    names_to = "MGE_Class",
+    values_to = "Count"
+  )
+
+# Calculate relative abundance per species
+MGE_relative <- MGE_long %>%
+  group_by(clean_sp, MGE_Class) %>%
+  summarise(Total = sum(Count, na.rm = TRUE), .groups = "drop") %>%
+  group_by(clean_sp) %>%
+  mutate(Relative_Abundance = Total / sum(Total)) %>%
+  ungroup()
+
+#fixing names to be nicer for figure 
+MGE_relative$MGE_Class <- gsub("Conjugative Element \\(CE\\)", "CE", MGE_relative$MGE_Class)
+MGE_relative$MGE_Class <- gsub("Insertion Sequence \\(IS\\)", "IS", MGE_relative$MGE_Class)
+MGE_relative$MGE_Class <- gsub("Plasmid,Conjugative Element \\(CE\\)", "Plasmid,CE", MGE_relative$MGE_Class)
+MGE_relative$MGE_Class <- gsub("Integrative Element \\(IGE\\)", "IGE", MGE_relative$MGE_Class)
+MGE_relative$MGE_Class <- gsub("Phage,Conjugative Element \\(CE\\)", "Phage,CE", MGE_relative$MGE_Class)
+MGE_relative$MGE_Class <- gsub("Integrative Element \\(IGE\\),Conjugative Element \\(CE\\)", "IGE,CE", MGE_relative$MGE_Class)
+MGE_relative$MGE_Class <- gsub("Insertion Sequence \\(IS\\),Phage", "IS,Phage", MGE_relative$MGE_Class)
+
+#order
+MGE_relative <- MGE_relative %>%
+  mutate(clean_sp = factor(clean_sp, levels = species_order))
+
+#colors
+mge_colors <- c("maroon4", "dodgerblue", "purple", "lightgoldenrod1", "pink","darkgreen", "orange", "gray", "salmon", "wheat3","black" )
+
+```
+
+##figure 3 A
+```{r}
+#svg("plots/mgeplot.svg")
+# plot relative abundance stacked bar chart
+ggplot(MGE_relative, aes(x = clean_sp, y = Relative_Abundance, fill = MGE_Class)) +
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values = mge_colors) +
+  labs(
+    title = "Relative Abundance of MGE Classes per Species",
+    x = "Species",
+    y = "Relative Abundance",
+    fill = "MGE Class"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 90, hjust = 1, face = "italic")
+  )
+#dev.off
+```
+
+MGE match hits AMRFinderPlus
+```{r}
+matched_hits <- list()
+
+#make mGE numeric columns
+MGE_data$ORF_End <- sapply(MGE_data$ORF_End,as.numeric)
+
+# Loop through AMRfinder_data rows
+for (i in 1:nrow(AMRfinder_data)) {
+  amr_row <- AMRfinder_data[i, ]
+  
+  # Subset MGE data by isolate and contig match
+  MGE_matches <- MGE_data[
+    MGE_data$source == amr_row$Isolate_ID &
+    MGE_data$Specific.Contig == amr_row$Contig.id &
+    abs(MGE_data$ORF_End - amr_row$Start) <= 5000,
+  ]
+
+  if (nrow(MGE_matches) > 0) {
+    for (j in 1:nrow(MGE_matches)) {
+      mge_row <- MGE_matches[j, ]
+      
+      matched_hits[[length(matched_hits) + 1]] <- data.frame(
+        Isolate_ID       = amr_row[["Isolate_ID"]],
+        AMR_gene_symbol  = amr_row[["Gene.symbol"]],
+        MGE_gene_symbol  = mge_row[["Gene.Name"]],
+        AMR_Class        = amr_row[["Class"]],
+        MGE_Class        = mge_row[["MGE_Class"]],
+        ContigAMR        = amr_row[["Contig.id"]],
+        Strand           = amr_row[["Strand"]],
+        AMR_Start        = amr_row[["Start"]],
+        AMR_Stop         = amr_row[["Stop"]],
+        MGE_Start        = mge_row[["ORF_Start"]],
+        MGE_Stop         = mge_row[["ORF_End"]],
+        stringsAsFactors = FALSE
+      )
+    }
+  }
+}
+
+# Combine into data frame if any hits
+if (length(matched_hits) > 0) {
+  matched_MGE <- do.call(rbind, matched_hits)
+  matched_MGE <- merge(matched_MGE, new_naming, by = "Isolate_ID", all.x = TRUE)
+} else {
+  print("No matching hits found within 5000 bp.")
+}
+```
+
+##Chord diagram
+```{r}
+
+#function to find hits near each other
+co_occurrences <- function(data, col1, col2) {
+  co_occurrence_table <- table(data[[col1]], data[[col2]])
+  co_occurrence_df <- as.data.frame(co_occurrence_table)
+  co_occurrence_df <- co_occurrence_df[co_occurrence_df$Freq > 0, ]
+
+  names(co_occurrence_df) <- c(col1, col2, "Count")
+  
+  return(co_occurrence_df)
+}
+
+#clean mGE class names
+AMR_co_MGE <- co_occurrences(matched_MGE, "AMR_gene_symbol", "MGE_Class")
+AMR_co_MGE$MGE_Class <- gsub("Conjugative Element \\(CE\\)", "CE", AMR_co_MGE$MGE_Class)
+AMR_co_MGE$MGE_Class <- gsub("Insertion Sequence \\(IS\\)", "IS", AMR_co_MGE$MGE_Class)
+AMR_co_MGE$MGE_Class <- gsub("Plasmid,Conjugative Element \\(CE\\)", "Plasmid,CE", AMR_co_MGE$MGE_Class)
+AMR_co_MGE$MGE_Class <- gsub("Integrative Element \\(IGE\\)", "IGE", AMR_co_MGE$MGE_Class)
+AMR_co_MGE$MGE_Class <- gsub("Phage,Conjugative Element \\(CE\\)", "Phage,CE", AMR_co_MGE$MGE_Class)
+AMR_co_MGE$MGE_Class <- gsub("Integrative Element \\(IGE\\),Conjugative Element \\(CE\\)", "IGE,CE", AMR_co_MGE$MGE_Class)
+AMR_co_MGE$MGE_Class <- gsub("Insertion Sequence \\(IS\\),Phage", "IS,Phage", AMR_co_MGE$MGE_Class)
+
+#clean gene names
+AMR_co_MGE$AMR_gene_symbol <- str_split_i(AMR_co_MGE$AMR_gene_symbol, pattern = "\t", i = 1)
+
+```
+
+##figure 3 C
+```{r}
+#clears any previous chord attempt
+circos.clear()
+
+#chord diagram
+#circos.par(gap.after = c(rep(5, length(unique(AMR_co_MGE[[1]]))-1), 15, 
+#                         rep(5, length(unique(AMR_co_MGE[[2]]))-1), 15))  
+grid.col = c("IGE" = "dodgerblue", "Phage" = "darkgreen", "Plasmid" = "salmon","Plasmid,CE" = "wheat",
+             "crpP" = "violetred3", "aac(6)-Ial" = "slateblue4", "aac(6)" = "slateblue4", "blaPLA-2a" = "green4", 
+             "fieF" = "gold4","oqxB" = "lightpink3", "ssmE" = "navy", "tet(45)" = "darkorange", 
+             "catB7" = "yellow2", "fosB" = "aquamarine3", "nheB" = "darkred", "nheC" = "darkred",
+             "smdB" = "black", "smfY" = "black","tet(B)" = "darkorange", "tet(L)" = "darkorange",
+             "vanR-A" = "maroon4", "vanS-Pt" = "maroon4","alo" = "darkred")
+
+circos.par(start.degree = 0, clock.wise = FALSE)
+
+#svg("plots/chord.svg")
+chordDiagram(AMR_co_MGE, grid.col = grid.col, , big.gap = 20)
+#dev.off
+
+#write.csv(matched_MGE, "tables_out/Supp.Table_3.csv")
+```
+
+CARD MGE
+```{r}
+#add column with contig without the ORF location 
+CARD_data3 <- CARD_data2
+CARD_data3$contig_true <- paste(str_split_i(CARD_data3$Contig, "_",1), str_split_i(CARD_data3$Contig, "_",2),
+                                str_split_i(CARD_data3$Contig, "_",3), str_split_i(CARD_data3$Contig,"_",4),
+                                str_split_i(CARD_data3$Contig, "_",5),str_split_i(CARD_data3$Contig, "_",6),
+                                sep = "_")
+matched_hits <- list()
+
+
+
+for (i in 1:nrow(CARD_data3)) {
+  amr_row <- CARD_data3[i, ]
+  
+  MGE_matches <- MGE_data[
+    MGE_data$source == amr_row$Isolate_ID &
+    as.character(MGE_data$Specific.Contig) == as.character(amr_row$contig_true) &
+    abs(MGE_data$ORF_End - as.numeric(amr_row$Start)) <= 5000, ]
+
+  if (nrow(MGE_matches) > 0) {
+    for (j in 1:nrow(MGE_matches)) {
+      mge_row <- MGE_matches[j, ]
+
+      if (!is.na(mge_row[["Gene.Name"]]) && !is.na(mge_row[["MGE_Class"]])) {
+        matched_hits[[length(matched_hits) + 1]] <- data.frame(
+          Isolate_ID = amr_row[["Isolate_ID"]],
+          CARD_gene = as.character(amr_row[["short_name"]]),
+          MGE_gene_symbol = as.character(mge_row[["Gene.Name"]]),
+          CARD_Class = as.character(amr_row[["AMRfinder_style_CLASS"]]),
+          MGE_Class = as.character(mge_row[["MGE_Class"]]),
+          Contig = as.character(amr_row[["contig_true"]]),
+          Strand = as.character(amr_row[["Orientation"]]),
+          CARD_Start = as.numeric(amr_row[["Start"]]),
+          CARD_Stop = as.numeric(amr_row[["Stop"]]),
+          MGE_Start  = as.numeric(mge_row[["ORF_Start"]]),
+          MGE_Stop = as.numeric(mge_row[["ORF_End"]]),
+          stringsAsFactors = FALSE
+        )
+      }
+    }
+  }
+}
+
+if (length(matched_hits) > 0) {
+  matched_MGE_C <- do.call(rbind, matched_hits)
+  matched_MGE_C <- merge(matched_MGE_C, new_naming, by.x = "Isolate_ID", by.y = "Isolate_ID", all.x = TRUE)
+} else {
+  print("No matching hits found within 5000 bp.")
+}
+
+```
+
+##Supp Figure 2 B
+```{r}
+#clean mGE class names
+CARD_co_MGE <- co_occurrences(matched_MGE_C, "CARD_gene", "MGE_Class")
+CARD_co_MGE$MGE_Class <- gsub("Conjugative Element \\(CE\\)", "CE", CARD_co_MGE$MGE_Class)
+CARD_co_MGE$MGE_Class <- gsub("Insertion Sequence \\(IS\\)", "IS", CARD_co_MGE$MGE_Class)
+CARD_co_MGE$MGE_Class <- gsub("Plasmid,Conjugative Element \\(CE\\)", "Plasmid,CE", CARD_co_MGE$MGE_Class)
+CARD_co_MGE$MGE_Class <- gsub("Integrative Element \\(IGE\\)", "IGE", CARD_co_MGE$MGE_Class)
+CARD_co_MGE$MGE_Class <- gsub("Phage,Conjugative Element \\(CE\\)", "Phage,CE", CARD_co_MGE$MGE_Class)
+CARD_co_MGE$MGE_Class <- gsub("Integrative Element \\(IGE\\),Conjugative Element \\(CE\\)", "IGE,CE", CARD_co_MGE$MGE_Class)
+CARD_co_MGE$MGE_Class <- gsub("Insertion Sequence \\(IS\\),Phage", "IS,Phage", CARD_co_MGE$MGE_Class)
+
+#clears any previous chord attempt
+circos.clear()
+
+#chord diagram
+#circos.par(gap.after = c(rep(5, length(unique(AMR_co_MGE[[1]]))-1), 15, 
+#                         rep(5, length(unique(AMR_co_MGE[[2]]))-1), 15))  
+grid.col = c( "Phage" = "darkgreen", "Plasmid" = "salmon","Plasmid,CE" = "wheat", 
+              "AAC(6')-Ic" = "slateblue4","OmpA" = "navy", "oqxB" ="black", 
+              "PLA-2a" = "green4"  ,  "qacG" = "black", "tet(45)" = "darkorange",
+              "FosB2" = "aquamarine3", "Kpne_KpnF" = "black",   "msbA" = "black",
+              "Paer_catB7" = "yellow2" , "Paer_CpxR" = "black",  "rsmA" = "black",
+              "tet(B)" = "darkorange", "tetR" = "darkorange", "vanR_in_vanA_cl" = "maroon4",
+              "vanT_in_vanG_cl" = "maroon4",  "vanW_in_vanG_cl" ="maroon4" ,  "vanY_in_vanA_c" = "maroon4", 
+              "vanY_in_vanF_cl" = "maroon4", "vanY_in_vanM_cl" = "maroon4")
+
+circos.par(start.degree = 0, clock.wise = FALSE)
+
+chordDiagram(CARD_co_MGE,
+             grid.col = grid.col,  big.gap = 20)
+```

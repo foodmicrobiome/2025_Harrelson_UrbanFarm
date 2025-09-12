@@ -1,0 +1,88 @@
+No,Isolate_ID,Project,Microbe_group,Project_sample_ID,Isolation_date,Isolation_farm,Isolation_source,Isolation_source_specific,Isolation_farm_irrigation,Isolation_media_original,Total_resistance_X.7,Total_tolerant_X.7,Multidrug_Resistant,Multidrug_tolerant,DNA_extraxtion_date,Qubit_DNA_conc,Library.Prep.Date,Primer.Plate,Well,Primer.Set
+35,UF-100,Urban Farm,Bacteria,BS-6,6/26/2023,F2,Bulk Soil,Bulk Soil,well,TSA+Tet,3,4,yes,yes,4/26/2024,29,6/25/2024,A,E02,A-E02
+36,UF-101,Urban Farm,Bacteria,BS-12,6/26/2023,F3,Bulk Soil,Bulk Soil,pond,TSA+Tet,2,7,no,yes,4/26/2024,78.1,6/26/2024,B,D02,B-D02
+37,UF-125,Urban Farm,Bacteria,P-38,7/6/2023,F4,Leafy Green,Kale,well,TSA+Amp,3,4,yes,yes,5/15/2024,10.3,6/25/2024,A,F02,A-F02
+49,UF-148,Urban Farm,Bacteria,P-47,7/6/2023,F4,Leafy Green,Lettuce,well,TSA+Amp,1,3,no,yes,5/16/2024,45.3,6/25/2024,A,C03,A-C03
+19,UF-15,Urban Farm,Bacteria,RZ-12,6/16/2023,F1,Root Zone Soil,Lettuce (Muir),city,TSA+Amp,3,5,yes,yes,5/15/2024,45.3,6/25/2024,A,B01,A-B01
+56,UF-166,Urban Farm,Bacteria,RZ-38,7/6/2023,F4,Root Zone Soil,Kale,well,TSA+Tet,3,5,yes,yes,4/26/2024,46.1,6/25/2024,A,G03,A-G03
+57,UF-167,Urban Farm,Bacteria,RZ-43,7/6/2023,F4,Root Zone Soil,Chard (Bright Lights),well,TSA+Tet,2,4,no,yes,4/26/2024,17.2,6/25/2024,A,H03,A-H03
+58,UF-170,Urban Farm,Bacteria,RZ-42,7/6/2023,F4,Root Zone Soil,Chard (Bright Lights),well,TSA+Tet,3,5,yes,yes,4/29/2024,19.4,6/25/2024,A,A04,A-A04
+59,UF-173,Urban Farm,Bacteria,P-47,7/6/2023,F4,Leafy Green,Lettuce,well,TSA+Tet,1,3,no,yes,4/29/2024,53.4,6/26/2024,B,E03,B-E03
+60,UF-174,Urban Farm,Bacteria,P-43,7/6/2023,F4,Leafy Green,Chard (Bright Lights),well,TSA+Tet,3,5,yes,yes,4/29/2024,24,6/25/2024,A,B04,A-B04
+61,UF-175,Urban Farm,Bacteria,P-46,7/6/2023,F4,Leafy Green,Lettuce,well,TSA+Tet,1,5,no,yes,4/29/2024,106,6/26/2024,B,C06,B-C06
+62,UF-176,Urban Farm,Bacteria,RZ-40,7/6/2023,F4,Root Zone Soil,Kale,well,TSA+Tet,0,6,no,yes,4/29/2024,9.77,6/26/2024,B,C01,B-C01
+63,UF-177,Urban Farm,Bacteria,RZ-47,7/6/2023,F4,Root Zone Soil,Lettuce,well,TSA+Tet,0,3,no,yes,4/29/2024,90.7,6/26/2024,B,F03,B-F03
+64,UF-178,Urban Farm,Bacteria,P-38,7/6/2023,F4,Leafy Green,Kale,well,TSA+Tet,3,5,yes,yes,4/29/2024,17.4,6/25/2024,A,C04,A-C04
+65,UF-180,Urban Farm,Bacteria,P-48,7/6/2023,F4,Leafy Green,Lettuce,well,TSA+Tet,2,7,no,yes,4/29/2024,46.4,6/25/2024,A,D04,A-D04
+66,UF-181,Urban Farm,Bacteria,P-37,7/6/2023,F4,Leafy Green,Kale,well,TSA+Tet,2,7,no,yes,4/29/2024,23.6,6/25/2024,A,E04,A-E04
+67,UF-183,Urban Farm,Bacteria,P-41,7/6/2023,F4,Leafy Green,Chard (Bright Lights),well,TSA+Tet,2,7,no,yes,5/1/2024,31.5,6/25/2024,A,F04,A-F04
+68,UF-184,Urban Farm,Bacteria,P-41,7/6/2023,F4,Leafy Green,Chard (Bright Lights),well,TSA+Tet,3,6,yes,yes,5/1/2024,47.8,6/25/2024,A,G04,A-G04
+69,UF-185,Urban Farm,Bacteria,P-36,7/6/2023,F4,Leafy Green,Kale,well,TSA+Tet,2,5,no,yes,5/1/2024,89.3,6/26/2024,B,G03,B-G03
+70,UF-186,Urban Farm,Bacteria,P-42,7/6/2023,F4,Leafy Green,Chard (Bright Lights),well,TSA+Tet,2,5,no,yes,5/3/2024,19.1,6/25/2024,A,H04,A-H04
+71,UF-187,Urban Farm,Bacteria,P-42,7/6/2023,F4,Leafy Green,Chard (Bright Lights),well,TSA+Tet,4,6,yes,yes,5/1/2024,134,6/26/2024,B,G06,B-G06
+74,UF-209,Urban Farm,Bacteria,RZ-47,7/6/2023,F4,Root Zone Soil,Lettuce,well,TSA+Amp,1,4,no,yes,4/26/2024,10.4,6/25/2024,A,B05,A-B05
+75,UF-212,Urban Farm,Bacteria,BS-15,7/6/2023,F4,Bulk Soil,Bulk Soil,well,TSA+Amp,2,4,no,yes,4/26/2024,52.1,6/26/2024,B,A04,B-A04
+76,UF-216,Urban Farm,Bacteria,P-48,7/6/2023,F4,Leafy Green,Lettuce,well,TSA+Amp,1,4,no,yes,4/26/2024,56.3,6/26/2024,B,B04,B-B04
+77,UF-219,Urban Farm,Bacteria,P-47,7/6/2023,F4,Leafy Green,Lettuce,well,TSA+Tet,2,5,no,yes,5/1/2024,58.9,6/26/2024,B,C04,B-C04
+78,UF-221,Urban Farm,Bacteria,P-46,7/6/2023,F4,Leafy Green,Lettuce,well,TSA+Tet,3,5,yes,yes,5/1/2024,58.5,6/26/2024,B,D04,B-D04
+79,UF-222,Urban Farm,Bacteria,RZ-43,7/6/2023,F4,Root Zone Soil,Chard (Bright Lights),well,TSA+Tet,4,5,yes,yes,5/1/2024,27,6/25/2024,A,C05,A-C05
+80,UF-224,Urban Farm,Bacteria,RZ-42,7/6/2023,F4,Root Zone Soil,Chard (Bright Lights),well,TSA+Tet,1,4,no,yes,5/1/2024,21.7,6/25/2024,A,D05,A-D05
+81,UF-227,Urban Farm,Bacteria,P-37,7/6/2023,F4,Leafy Green,Kale,well,TSA+Tet,4,5,yes,yes,5/1/2024,51.9,6/26/2024,B,E04,B-E04
+82,UF-243,Urban Farm,Bacteria,P-57,7/12/2023,F5,Leafy Green,Chard (Bright Lights),city,TSA+Amp,2,4,no,yes,5/16/2024,7.67,6/26/2024,B,D01,B-D01
+83,UF-244,Urban Farm,Bacteria,RZ-57,7/12/2023,F5,Root Zone Soil,Chard (Bright Lights),city,TSA+Amp,3,3,yes,yes,4/26/2024,102,6/26/2024,B,D06,B-D06
+84,UF-248,Urban Farm,Bacteria,P-50,7/12/2023,F5,Leafy Green,Kale (Redbor),city,TSA+Amp,2,3,no,yes,4/26/2024,78,6/26/2024,B,F04,B-F04
+85,UF-249,Urban Farm,Bacteria,P-56,7/12/2023,F5,Leafy Green,Kale (Darkibor),city,TSA+Amp,2,4,no,yes,4/24/2024,16.2,6/25/2024,A,E05,A-E05
+86,UF-250,Urban Farm,Bacteria,P-59,7/12/2023,F5,Leafy Green,Chard (Bright Lights),city,TSA+Amp,3,4,yes,yes,4/19/2024,16,6/25/2024,A,F05,A-F05
+87,UF-251,Urban Farm,Bacteria,P-52,7/12/2023,F5,Leafy Green,Kale (Redbor),city,TSA+Amp,2,3,no,yes,4/19/2024,7.85,6/25/2024,A,G05,A-G05
+88,UF-254,Urban Farm,Bacteria,RZ-58,7/12/2023,F5,Root Zone Soil,Chard (Bright Lights),city,TSA+Amp,1,4,no,yes,4/19/2024,55.6,6/26/2024,B,G04,B-G04
+89,UF-255,Urban Farm,Bacteria,RZ-54,7/12/2023,F5,Root Zone Soil,Kale (Darkibor),city,TSA+Amp,1,4,no,yes,4/19/2024,8.4,6/25/2024,A,H05,A-H05
+90,UF-256,Urban Farm,Bacteria,RZ-51,7/12/2023,F5,Root Zone Soil,Kale (Redbor),city,TSA+Amp,2,4,no,yes,4/19/2024,4.27,6/25/2024,A,A06,A-A06
+91,UF-257,Urban Farm,Bacteria,BS-22,7/26/2023,F5,Bulk Soil,Bulk Soil,city,TSA+Amp,2,4,no,yes,4/19/2024,8.96,6/25/2024,A,B06,A-B06
+93,UF-260,Urban Farm,Bacteria,RZ-56,7/12/2023,F5,Root Zone Soil,Kale (Darkibor),city,TSA+Tet,3,6,yes,yes,5/3/2024,37.9,6/25/2024,A,D06,A-D06
+94,UF-263,Urban Farm,Bacteria,BS-24,7/26/2023,F5,Bulk Soil,Bulk Soil,city,TSA+Tet,3,4,yes,yes,5/3/2024,58.9,6/26/2024,B,H04,B-H04
+95,UF-268,Urban Farm,Bacteria,RZ-54,7/12/2023,F5,Root Zone Soil,Kale (Darkibor),city,TSA+Tet,4,4,yes,yes,5/3/2024,54.1,6/26/2024,B,A05,B-A05
+96,UF-269,Urban Farm,Bacteria,RZ-55,7/12/2023,F5,Root Zone Soil,Kale (Darkibor),city,TSA+Tet,2,4,no,yes,5/3/2024,89,6/25/2024,A,D07,A-D07
+97,UF-269b,Urban Farm,Bacteria,RZ-55,7/12/2023,F5,Root Zone Soil,Kale (Darkibor),city,TSA+Tet,2,4,no,yes,5/3/2024,89,6/26/2024,B,B05,B-B05
+98,UF-274,Urban Farm,Bacteria,RZ-50,7/12/2023,F5,Root Zone Soil,Kale (Redbor),city,TSA+Tet,3,5,yes,yes,5/3/2024,41.4,6/25/2024,A,E06,A-E06
+99,UF-275,Urban Farm,Bacteria,RZ-50,7/12/2023,F5,Root Zone Soil,Kale (Redbor),city,TSA+Tet,5,5,yes,yes,5/3/2024,97.6,6/26/2024,B,C05,B-C05
+101,UF-287,Urban Farm,Bacteria,P-64,7/22/2023,CG1,Leafy Green,Kale (Westlander),city,TSA+Amp,1,3,no,yes,4/19/2024,8.67,6/26/2024,B,E01,B-E01
+102,UF-289,Urban Farm,Bacteria,P-67,7/22/2023,CG1,Leafy Green,Kale (Westlander),city,TSA+Amp,1,4,no,yes,4/19/2024,20.8,6/25/2024,A,G06,A-G06
+103,UF-290,Urban Farm,Bacteria,RZ-60,7/22/2023,CG1,Root Zone Soil,Kale (Lacinato),city,TSA+Amp,1,4,no,yes,4/19/2024,18.5,6/25/2024,A,H06,A-H06
+104,UF-293,Urban Farm,Bacteria,BS-26,7/22/2023,CG1,Bulk Soil,Bulk Soil,city,TSA+Amp,2,4,no,yes,4/17/2024,29.6,6/25/2024,A,A07,A-A07
+105,UF-297,Urban Farm,Bacteria,RZ-68,7/22/2023,CG1,Root Zone Soil,Kale (Westlander),city,TSA+Amp,1,3,no,yes,4/17/2024,29.1,6/25/2024,A,B07,A-B07
+106,UF-298,Urban Farm,Bacteria,RZ-68,7/22/2023,CG1,Root Zone Soil,Kale (Westlander),city,TSA+Amp,2,3,no,yes,4/17/2024,16.2,6/25/2024,A,C07,A-C07
+107,UF-299,Urban Farm,Bacteria,RZ-67,7/22/2023,CG1,Root Zone Soil,Kale (Westlander),city,TSA+Amp,2,5,no,yes,4/17/2024,29.4,6/26/2024,B,H06,B-H06
+112,UF-316,Urban Farm,Bacteria,BS-26,7/22/2023,CG1,Bulk Soil,Bulk Soil,city,TSA+Tet,4,6,yes,yes,5/10/2024,11.3,6/25/2024,A,A08,A-A08
+113,UF-340,Urban Farm,Bacteria,P-76,7/25/2023,CG2,Leafy Green,Kale (Westlander),city & harvested rain,TSA+Tet,2,3,no,yes,5/10/2024,36.9,6/25/2024,A,B08,A-B08
+114,UF-342,Urban Farm,Bacteria,BS-33,7/25/2023,CG2,Bulk Soil,Bulk Soil,city & harvested rain,TSA+Tet,2,4,no,yes,5/10/2024,15,6/25/2024,A,C08,A-C08
+115,UF-343,Urban Farm,Bacteria,RZ-73,7/25/2023,CG2,Root Zone Soil,Kale (Lacinato),city & harvested rain,TSA+Tet,2,4,no,yes,5/10/2024,37.1,6/25/2024,A,D08,A-D08
+116,UF-346,Urban Farm,Bacteria,RZ-71,7/25/2023,CG2,Root Zone Soil,Kale (Lacinato),city & harvested rain,TSA+Tet,3,3,yes,yes,5/14/2024,27.2,6/25/2024,A,E08,A-E08
+117,UF-347,Urban Farm,Bacteria,RZ-74,7/25/2023,CG2,Root Zone Soil,Kale (Westlander),city & harvested rain,TSA+Tet,2,3,no,yes,5/14/2024,28.8,6/25/2024,A,F08,A-F08
+118,UF-350,Urban Farm,Bacteria,BS-30,7/25/2023,CG2,Bulk Soil,Bulk Soil,city & harvested rain,TSA+Tet,2,4,no,yes,5/14/2024,25.5,6/25/2024,A,G08,A-G08
+119,UF-357,Urban Farm,Bacteria,RZ-80,7/25/2023,CG2,Root Zone Soil,Kale (Red Russian),city & harvested rain,TSA+Amp,2,4,no,yes,4/12/2024,12,6/25/2024,A,H08,A-H08
+120,UF-358,Urban Farm,Bacteria,RZ-79,7/25/2023,CG2,Root Zone Soil,Kale (Red Russian),city & harvested rain,TSA+Amp,2,4,no,yes,4/12/2024,14.5,6/25/2024,A,A09,A-A09
+124,UF-369,Urban Farm,Bacteria,BS-33,7/25/2023,CG2,Bulk Soil,Bulk Soil,city & harvested rain,TSA+Amp,3,4,yes,yes,4/12/2024,54.2,6/26/2024,B,D05,B-D05
+125,UF-370,Urban Farm,Bacteria,RZ-70,7/25/2023,CG2,Root Zone Soil,Kale (Lacinato),city & harvested rain,TSA+Amp,2,4,no,yes,4/12/2024,68.2,6/26/2024,B,E05,B-E05
+126,UF-371,Urban Farm,Bacteria,P-76,7/25/2023,CG2,Leafy Green,Kale (Westlander),city & harvested rain,TSA+Amp,1,4,no,yes,4/12/2024,32.9,6/25/2024,A,D09,A-D09
+130,UF-407,Urban Farm,Bacteria,RZ-81,9/1/2023,F1,Root Zone Soil,Kale (Red Russian),city,TSA+Amp,3,5,yes,yes,4/12/2024,108,6/26/2024,B,E06,B-E06
+135,UF-412,Urban Farm,Bacteria,BS-35,9/1/2023,F1,Bulk Soil,Bulk Soil,city,TSA+Amp,2,3,no,yes,4/12/2024,6.49,6/26/2024,B,G01,B-G01
+136,UF-413,Urban Farm,Bacteria,BS-37,9/1/2023,F1,Bulk Soil,Bulk Soil,city,TSA+Amp,1,3,no,yes,4/10/2024,110,6/26/2024,B,F06,B-F06
+138,UF-445,Urban Farm,Bacteria,BS-36,9/1/2023,F1,Bulk Soil,Bulk Soil,city,TSA+Tet,3,5,yes,yes,5/14/2024,30.5,6/25/2024,A,E10,A-E10
+139,UF-447,Urban Farm,Bacteria,BS-39,9/1/2023,F1,Bulk Soil,Bulk Soil,city,TSA+Tet,3,5,yes,yes,5/14/2024,11.1,6/25/2024,A,F10,A-F10
+140,UF-449,Urban Farm,Bacteria,RZ-86,9/1/2023,F1,Root Zone Soil,Chard (Bright Lights),city,TSA+Tet,3,3,yes,yes,5/14/2024,22.4,6/25/2024,A,G10,A-G10
+141,UF-450,Urban Farm,Bacteria,RZ-81,9/1/2023,F1,Root Zone Soil,Kale (Red Russian),city,TSA+Tet,3,4,yes,yes,5/14/2024,10.9,6/25/2024,A,H10,A-H10
+142,UF-452,Urban Farm,Bacteria,RZ-83,9/1/2023,F1,Root Zone Soil,Kale (Red Russian),city,TSA+Tet,4,5,yes,yes,5/14/2024,6.32,6/26/2024,B,H01,B-H01
+143,UF-453,Urban Farm,Bacteria,RZ-85,9/1/2023,F1,Root Zone Soil,Chard (Bright Lights),city,TSA+Tet,3,4,yes,yes,5/14/2024,11,6/25/2024,A,A11,A-A11
+144,UF-458,Urban Farm,Bacteria,BS-36,9/1/2023,F1,Bulk Soil,Bulk Soil,city,TSA+Tet,4,5,yes,yes,5/14/2024,51.2,6/26/2024,B,F05,B-F05
+18,UF-6,Urban Farm,Bacteria,RZ-12,6/16/2023,F1,Root Zone Soil,Lettuce (Muir),city,TSA+Amp,1,4,no,yes,5/15/2024,42.4,6/25/2024,A,A01,A-A01
+22,UF-74,Urban Farm,Bacteria,RZ-18,6/26/2023,F2,Root Zone Soil,Kale (Starbor),well,TSA+Amp,2,4,no,yes,5/15/2024,13,6/25/2024,A,D01,A-D01
+24,UF-76,Urban Farm,Bacteria,RZ-23,6/26/2023,F2,Root Zone Soil,Kale (Lacinato),well,TSA+Amp,2,3,no,yes,5/15/2024,7.61,6/26/2024,B,A01,B-A01
+25,UF-77,Urban Farm,Bacteria,RZ-21,6/26/2023,F2,Root Zone Soil,Kale (Lacinato),well,TSA+Amp,2,4,no,yes,5/15/2024,43.1,6/25/2024,A,F01,A-F01
+26,UF-78,Urban Farm,Bacteria,RZ-29,6/26/2023,F2,Root Zone Soil,Kale (Siberian),well,TSA+Amp,4,4,yes,yes,5/15/2024,59,6/26/2024,B,B02,B-B02
+27,UF-81,Urban Farm,Bacteria,BS-13,6/26/2023,F3,Bulk Soil,Bulk Soil,pond,TSA+Amp,2,3,no,yes,5/15/2024,31,6/25/2024,A,G01,A-G01
+28,UF-84,Urban Farm,Bacteria,P-16,6/26/2023,F2,Leafy Green,Kale (Starbor),well,TSA+Amp,3,3,yes,yes,5/15/2024,22.7,6/25/2024,A,H01,A-H01
+29,UF-86,Urban Farm,Bacteria,P-24,6/26/2023,F2,Leafy Green,Kale (Lacinato),well,TSA+Amp,3,4,yes,yes,5/15/2024,17.6,6/25/2024,A,A02,A-A02
+30,UF-89,Urban Farm,Bacteria,P-34,6/26/2023,F3,Leafy Green,Cabbage (Napa),pond,TSA+Amp,3,4,yes,yes,5/15/2024,12.2,6/25/2024,A,B02,A-B02
+31,UF-94,Urban Farm,Bacteria,RZ-30,6/26/2023,F2,Root Zone Soil,Kale (Siberian),well,TSA+Tet,3,3,yes,yes,4/24/2024,46.4,6/25/2024,A,C02,A-C02
+32,UF-95,Urban Farm,Bacteria,RZ-28,6/26/2023,F2,Root Zone Soil,Kale (Siberian),well,TSA+Tet,1,5,no,yes,4/24/2024,61.7,6/26/2024,B,C02,B-C02
+33,UF-97,Urban Farm,Bacteria,RZ-31,6/26/2023,F3,Root Zone Soil,Cabbage (Napa),pond,TSA+Tet,0,5,no,yes,4/26/2024,118,6/26/2024,B,A06,B-A06

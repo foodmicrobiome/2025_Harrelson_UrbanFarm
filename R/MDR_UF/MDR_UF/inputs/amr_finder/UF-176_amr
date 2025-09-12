@@ -1,0 +1,2 @@
+Protein identifier	Contig id	Start	Stop	Strand	Gene symbol	Sequence name	Scope	Element type	Element subtype	Class	Subclass	Method	Target length	Reference sequence length	% Coverage of reference sequence	% Identity to reference sequence	Alignment length	Accession of closest sequence	Name of closest sequence	HMM id	HMM description
+NA	NODE_31_length_5186_cov_423.222353	3522	4901	+	tet(L)	tetracycline efflux MFS transporter Tet(L)	core	AMR	AMR	TETRACYCLINE	TETRACYCLINE	BLASTX	460	460	100.00	99.35	460	WP_012477450.1	tetracycline efflux MFS transporter Tet(L)	NA	NA
